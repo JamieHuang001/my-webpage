@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>維修與居家保養服務數據報告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8fafc; /* Fallback */
+            background-image: linear-gradient(to bottom right, #f8fafc, #eef2ff, #f8fafc);
+        }
+        #presentation-container {
+            perspective: 1000px;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transform: scale(0.98) translateY(10px);
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            will-change: opacity, transform;
+            backface-visibility: hidden;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        .nav-button:hover {
+            background-color: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .nav-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.6);
+        }
+        #prevBtn {
+            left: -1.75rem;
+        }
+        #nextBtn {
+            right: -1.75rem;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            height: 0.75rem;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: #3b82f6;
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .page-indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .page-indicator-dot.active {
+            background-color: #3b82f6;
+            transform: scale(1.25);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="presentation-container" class="w-full max-w-5xl mx-auto relative">
+        <div id="presentation">
+            <!-- Slide 1: Title -->
+            <div id="slide1" class="slide active">
+                <div class="text-center p-8 flex flex-col items-center justify-center min-h-[60vh]">
+                     <div class="mb-6 text-6xl text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-3 tracking-tight">維修與居家保養服務</h1>
+                    <h2 class="text-3xl md:text-4xl font-semibold text-blue-600">數據報告</h2>
+                    <div class="mt-8 bg-white/60 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-gray-200/80">
+                        <p class="text-lg md:text-xl text-gray-700 font-medium">2025年9月17日 - 2025年10月14日</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Overview -->
+            <div id="slide2" class="slide">
+                <div class="p-4 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">服務總覽</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="card text-center col-span-1 md:col-span-2 flex flex-col items-center justify-center py-10 bg-blue-50/80 border-l-4 border-blue-500">
+                            <div class="text-blue-500 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                            </div>
+                            <p class="text-lg text-gray-600">總服務量</p>
+                            <p class="text-6xl font-bold text-blue-600">124 <span class="text-2xl font-medium tracking-normal">件</span></p>
+                        </div>
+                        <div class="card text-center flex flex-col items-center justify-center">
+                            <div class="text-rose-500 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg></div>
+                            <p class="text-lg text-gray-600">維修件數</p>
+                            <p class="text-5xl font-bold text-gray-700">49 <span class="text-xl font-medium">件</span></p>
+                        </div>
+                        <div class="card text-center flex flex-col items-center justify-center">
+                            <div class="text-sky-500 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4-4-4 5.293-5.293a1 1 0 011.414 0L13 14m0 0l2.293 2.293a1 1 0 010 1.414L10 21l-4-4 4-4 3 3z" /></svg></div>
+                            <p class="text-lg text-gray-600">居家保養件數</p>
+                            <p class="text-5xl font-bold text-gray-700">75 <span class="text-xl font-medium">件</span></p>
+                        </div>
+                        <div class="card text-center flex flex-col items-center justify-center bg-green-50/80">
+                             <div class="text-green-500 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                            <p class="text-lg text-gray-600">保固內維修件</p>
+                            <p class="text-5xl font-bold text-green-600">14 <span class="text-xl font-medium">件</span></p>
+                        </div>
+                        <div class="card text-center flex flex-col items-center justify-center bg-green-50/80">
+                            <div class="text-green-500 mb-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+                            <p class="text-lg text-gray-600">平均保固件佔比</p>
+                            <p class="text-5xl font-bold text-green-600">~29<span class="text-2xl font-medium">%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Detailed Data -->
+            <div id="slide3" class="slide">
+                <div class="p-4 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">分類維修數據</h2>
+                    <div class="space-y-6">
+                        <!-- CPAP -->
+                        <div class="card">
+                            <div class="flex flex-wrap justify-between items-center gap-4">
+                                <h3 class="text-2xl font-semibold text-blue-700">CPAP</h3>
+                                <div class="text-right">
+                                    <p class="text-lg font-medium text-gray-700">總件數: <span class="font-bold text-2xl">19</span> | <span class="text-green-600">保固內: <span class="font-bold text-xl">5</span></span></p>
+                                </div>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar" style="width: 26.3%;"></div></div>
+                            <p class="text-right text-sm font-medium text-gray-500 mt-2">保固佔比: 26.3%</p>
+                        </div>
+                        <!-- BiPAP -->
+                        <div class="card">
+                             <div class="flex flex-wrap justify-between items-center gap-4">
+                                <h3 class="text-2xl font-semibold text-blue-700">BiPAP</h3>
+                                <div class="text-right">
+                                    <p class="text-lg font-medium text-gray-700">總件數: <span class="font-bold text-2xl">15</span> | <span class="text-green-600">保固內: <span class="font-bold text-xl">4</span></span></p>
+                                </div>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar" style="width: 26.7%;"></div></div>
+                            <p class="text-right text-sm font-medium text-gray-500 mt-2">保固佔比: 26.7%</p>
+                        </div>
+                        <!-- PSG -->
+                        <div class="card">
+                             <div class="flex flex-wrap justify-between items-center gap-4">
+                                <h3 class="text-2xl font-semibold text-blue-700">PSG</h3>
+                                <div class="text-right">
+                                    <p class="text-lg font-medium text-gray-700">總件數: <span class="font-bold text-2xl">7</span> | <span class="text-green-600">保固內: <span class="font-bold text-xl">4</span></span></p>
+                                </div>
+                            </div>
+                             <div class="progress-bar-container"><div class="progress-bar" style="width: 57.1%;"></div></div>
+                             <p class="text-right text-sm font-medium text-gray-500 mt-2">保固佔比: 57.1%</p>
+                        </div>
+                        <!-- Oxygen Machine -->
+                        <div class="card">
+                            <div class="flex flex-wrap justify-between items-center gap-4">
+                                <h3 class="text-2xl font-semibold text-blue-700">氧氣機</h3>
+                                <div class="text-right">
+                                    <p class="text-lg font-medium text-gray-700">總件數: <span class="font-bold text-2xl">8</span> | <span class="text-green-600">保固內: <span class="font-bold text-xl">1</span></span></p>
+                                </div>
+                            </div>
+                            <div class="progress-bar-container"><div class="progress-bar" style="width: 12.5%;"></div></div>
+                            <p class="text-right text-sm font-medium text-gray-500 mt-2">保固佔比: 12.5%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Comparison with Previous Period -->
+            <div id="slide4" class="slide">
+                <div class="p-4 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">與前期數據比較</h2>
+                    <p class="text-center text-gray-500 mb-8">本期：2025/9/17 - 10/14 vs. 前期：2025/8/13 - 9/16</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="card text-center">
+                            <p class="text-lg text-gray-600 mb-2">總服務量</p>
+                            <div class="flex items-baseline justify-center space-x-3">
+                                <span class="text-2xl font-medium text-gray-400">147</span>
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path></svg>
+                                <span class="text-5xl font-bold text-gray-800">124</span>
+                            </div>
+                            <div class="mt-3 inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700">- 15.6%</div>
+                        </div>
+                        <div class="card text-center">
+                            <p class="text-lg text-gray-600 mb-2">維修件數</p>
+                            <div class="flex items-baseline justify-center space-x-3">
+                                <span class="text-2xl font-medium text-gray-400">66</span>
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path></svg>
+                                <span class="text-5xl font-bold text-gray-800">49</span>
+                            </div>
+                            <div class="mt-3 inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700">- 25.8%</div>
+                        </div>
+                        <div class="card text-center">
+                            <p class="text-lg text-gray-600 mb-2">居家保養</p>
+                            <div class="flex items-baseline justify-center space-x-3">
+                                <span class="text-2xl font-medium text-gray-400">81</span>
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"></path></svg>
+                                <span class="text-5xl font-bold text-gray-800">75</span>
+                            </div>
+                            <div class="mt-3 inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700">- 7.4%</div>
+                        </div>
+                        <div class="card text-center col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-green-50/70 border-l-4 border-green-400">
+                             <div>
+                                <p class="text-lg text-gray-600 mb-2">保固內維修</p>
+                                <div class="flex items-baseline justify-center space-x-3">
+                                    <span class="text-2xl font-medium text-gray-400">24</span>
+                                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"></path></svg>
+                                    <span class="text-5xl font-bold text-green-700">14</span>
+                                </div>
+                                <div class="mt-3 inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">改善 41.7%</div>
+                            </div>
+                            <div>
+                                <p class="text-lg text-gray-600 mb-2">平均保固佔比</p>
+                                <div class="flex items-baseline justify-center space-x-3">
+                                    <span class="text-2xl font-medium text-gray-400">36%</span>
+                                    <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"></path></svg>
+                                    <span class="text-5xl font-bold text-green-700">29%</span>
+                                </div>
+                                <div class="mt-3 inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">降低 7 個百分點</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Summary & Suggestions -->
+            <div id="slide5" class="slide">
+                <div class="p-4 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">總結與建議</h2>
+                    <div class="card bg-gray-50/80">
+                        <ul class="space-y-6 text-lg text-gray-700">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mr-4 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                </div>
+                                <div>
+                                    <strong class="font-semibold text-gray-900">維修狀況觀察</strong>
+                                    <p class="mt-1 text-gray-600">本期數據顯示，部分設備的保固內維修佔比較為突出，建議應持續關注並進行後續追蹤，以確保服務品質穩定。</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div>
+                                    <strong class="font-semibold text-gray-900">持續優化流程</strong>
+                                    <p class="mt-1 text-gray-600">整體維修效率與品質已有所提升，展現了部門同仁的努力。未來應持續精進現有流程，尋求更佳的工作模式。</p>
+                                </div>
+                            </li>
+                             <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4 mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                                </div>
+                                <div>
+                                    <strong class="font-semibold text-gray-900">鞏固核心業務</strong>
+                                     <p class="mt-1 text-gray-600">居家保養服務佔總服務量的大宗，是維繫客戶關係的核心。建議投入資源優化保養流程與客戶體驗，以鞏固此一重要業務基礎，防止客戶流失。</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <button id="prevBtn" class="nav-button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button id="nextBtn" class="nav-button">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        
+        <!-- Page indicator -->
+        <div id="pageIndicator" class="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-3"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndicatorContainer = document.getElementById('pageIndicator');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function createPageIndicators() {
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('page-indicator-dot');
+                    dot.addEventListener('click', () => showSlide(i));
+                    pageIndicatorContainer.appendChild(dot);
+                }
+            }
+            
+            function showSlide(index) {
+                if (index >= totalSlides || index < 0) return;
+
+                const lastSlide = currentSlide;
+                currentSlide = index;
+
+                slides.forEach((slide) => slide.classList.remove('active'));
+                slides[currentSlide].classList.add('active');
+                
+                updateNav();
+            }
+
+            function updateNav() {
+                // Buttons
+                prevBtn.style.display = currentSlide === 0 ? 'none' : 'flex';
+                nextBtn.style.display = currentSlide === totalSlides - 1 ? 'none' : 'flex';
+
+                // Dots
+                const dots = document.querySelectorAll('.page-indicator-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentSlide);
+                });
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+
+            // Initial setup
+            createPageIndicators();
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
