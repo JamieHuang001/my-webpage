@@ -51,7 +51,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-200 pb-4">
             <div>
                 <h1 class="text-3xl font-bold text-slate-800">工程部月度績效報告</h1>
-                <p class="text-slate-500 mt-1">統計區間：<span class="font-mono font-semibold text-blue-600">2025/11/19 - 2025/12/12</span></p>
+                <p class="text-slate-500 mt-1">統計區間：<span class="font-mono font-semibold text-blue-600">2025/11/19 - 2025/12/15</span></p>
             </div>
             <div class="mt-4 md:mt-0 flex gap-3">
                 <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-sm font-semibold border border-slate-200">內部營運報表</span>
@@ -69,15 +69,15 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="kpi-label">總服務案件量</p>
-                        <p class="kpi-value">114 <span class="text-lg text-gray-400 font-normal">件</span></p>
+                        <p class="kpi-value">115 <span class="text-lg text-gray-400 font-normal">件</span></p>
                     </div>
-                    <!-- 114 vs 170 (Previous) -> Decrease -->
+                    <!-- 115 vs 170 (Previous) -->
                     <div class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">量能趨緩</div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-blue-500 h-1.5 rounded-full" style="width: 67%"></div>
+                    <div class="bg-blue-500 h-1.5 rounded-full" style="width: 68%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">較前期減少 32.9%</p>
+                <p class="text-xs text-gray-500 mt-2">較前期減少 32.4%</p>
             </div>
 
             <!-- TAT -->
@@ -95,20 +95,19 @@
                 <p class="text-xs text-gray-500 mt-2">目標 &lt; 3.0 天</p>
             </div>
 
-            <!-- Service Mix -->
-            <div class="card border-t-4 border-indigo-400">
+            <!-- Repair Return Rate (New) -->
+            <div class="card border-t-4 border-purple-500">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="kpi-label">服務類型佔比</p>
-                        <p class="kpi-value">50 <span class="text-lg text-gray-400 font-normal">%</span></p>
+                        <p class="kpi-label">維修返修率</p>
+                        <p class="kpi-value">3.3 <span class="text-lg text-gray-400 font-normal">%</span></p>
                     </div>
-                    <div class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2 py-1 rounded">均衡</div>
+                    <div class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded">良好</div>
                 </div>
-                <div class="flex gap-2 mt-4 text-xs">
-                    <span class="bg-gray-100 px-2 py-1 rounded text-gray-600">維修 57 件</span>
-                    <span class="bg-gray-100 px-2 py-1 rounded text-gray-600">保養 57 件</span>
+                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
+                    <div class="bg-purple-500 h-1.5 rounded-full" style="width: 3.3%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">維修與保養各佔一半</p>
+                <p class="text-xs text-gray-500 mt-2">2 件返修 / 59 件維修</p>
             </div>
 
             <!-- Warranty Rate -->
@@ -116,14 +115,14 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="kpi-label">保固內案件佔比</p>
-                        <p class="kpi-value">22 <span class="text-lg text-gray-400 font-normal">%</span></p>
+                        <p class="kpi-value">24 <span class="text-lg text-gray-400 font-normal">%</span></p>
                     </div>
                     <div class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">改善</div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 22%"></div>
+                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 24%"></div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">較前期下降 12% (優化)</p>
+                <p class="text-xs text-gray-500 mt-2">較前期下降 10% (優化)</p>
             </div>
         </div>
 
@@ -155,7 +154,7 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">指標</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">前期 (10/15-11/18)</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">本期 (11/19-12/12)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">本期 (11/19-12/15)</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">變動</th>
                         </tr>
                     </thead>
@@ -163,20 +162,20 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">總服務量</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">170 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">114 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 32.9%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">115 件</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 32.4%</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">維修件數</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">69 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">57 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 17.4%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">59 件</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 14.5%</td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">保固佔比</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">34%</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">22%</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">▲ 優化 12%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">24%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">▲ 優化 10%</td>
                         </tr>
                     </tbody>
                 </table>
@@ -195,9 +194,9 @@
                     <div class="flex items-start">
                         <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-blue-500 mr-3"></div>
                         <div>
-                            <strong class="block text-gray-900">保固維修顯著改善</strong>
+                            <strong class="block text-gray-900">保固佔比與品質改善</strong>
                             <p class="text-sm text-gray-600 mt-1">
-                                本月保固內維修佔比由前期的 34% 大幅下降至 22%，顯示近期對特定機型（CPAP, BiPAP）的品質監控與客戶衛教成效浮現，有效降低了不必要的保固內回修。
+                                本月保固內維修佔比降至 24%，顯示品質管控成效顯著。維修返修率為 3.3%（2件），維持在可控範圍內，建議針對該 2 件返修案例進行根因分析。
                             </p>
                         </div>
                     </div>
@@ -205,14 +204,16 @@
                         <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-green-500 mr-3"></div>
                         <div>
                             <strong class="block text-gray-900">TAT 0.58 天，效率極佳</strong>
-                            <p class="text-sm text-gray-600 mt-1">團隊維持超高效率，平均完修時間僅 0.58 天，絕大多數案件均能當日處理完畢，展現了極佳的調度與執行能力。</p>
+                            <p class="text-sm text-gray-600 mt-1">團隊維持超高效率，平均完修時間僅 0.58 天。本月一般維修（23件）與居家保養（57件）為主要工作量來源。</p>
                         </div>
                     </div>
                     <div class="flex items-start">
                         <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-indigo-500 mr-3"></div>
                         <div>
-                            <strong class="block text-gray-900">裝機業務穩定輸出</strong>
-                            <p class="text-sm text-gray-600 mt-1">本月居家裝機 6 件、醫院安裝 11 件，這類高技術含量案件對整體服務品質貢獻良多。</p>
+                            <strong class="block text-gray-900">業務類型分佈</strong>
+                            <p class="text-sm text-gray-600 mt-1">
+                                居家裝機 (6件) 與醫院安裝 (11件) 保持穩定。困難維修 (3件) 數量較少，但仍需投入較多工時處理。
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -226,16 +227,16 @@
                 </h3>
                 <ul class="space-y-4">
                     <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">1. 提升服務總量</strong>
-                        <p class="text-xs text-gray-600">本月案件量較上期減少約 33%，建議可主動安排冬季保養邀約或醫院巡檢，以維持團隊產能。</p>
+                        <strong class="text-sm text-indigo-700 block mb-1">1. 返修案例追蹤</strong>
+                        <p class="text-xs text-gray-600">針對本月 2 件返修案建立改善對策，目標將返修率壓低至 1% 以下。</p>
                     </li>
                     <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">2. 持續監控 CPAP 品質</strong>
-                        <p class="text-xs text-gray-600">雖然保固佔比下降，但 CPAP 仍有 6 件保固維修。建議持續記錄故障樣態，作為後續採購參考。</p>
+                        <strong class="text-sm text-indigo-700 block mb-1">2. 提升服務總量</strong>
+                        <p class="text-xs text-gray-600">本月案件量 115 件較前期減少，建議與業務端配合，增加冬季設備巡檢或保養邀約。</p>
                     </li>
                     <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">3. 維持人力彈性</strong>
-                        <p class="text-xs text-gray-600">隨著年底居家保養需求可能增加，需提前規劃人力，確保 TAT 維持在 1 天以內的高水準。</p>
+                        <strong class="text-sm text-indigo-700 block mb-1">3. 持續監控 CPAP 品質</strong>
+                        <p class="text-xs text-gray-600">CPAP 維修量 (25件) 仍佔大宗，需持續關注馬達與受潮問題。</p>
                     </li>
                 </ul>
             </div>
@@ -253,9 +254,9 @@
         new Chart(ctxDevice, {
             type: 'doughnut',
             data: {
-                labels: ['CPAP (24件)', 'BiPAP (17件)', 'PSG (8件)', '氧氣機 (8件)'],
+                labels: ['CPAP (25件)', 'BiPAP (17件)', 'PSG (9件)', '氧氣機 (8件)'],
                 datasets: [{
-                    data: [24, 17, 8, 8],
+                    data: [25, 17, 9, 8],
                     backgroundColor: [
                         '#3b82f6', // Blue
                         '#6366f1', // Indigo
@@ -285,7 +286,7 @@
                 labels: ['居家保養', '一般維修', '醫院安裝', 'QC檢測', '居家裝機', '醫院保養', '外修', '困難維修'],
                 datasets: [{
                     label: '案件數',
-                    data: [57, 22, 11, 6, 6, 5, 3, 2],
+                    data: [57, 23, 11, 6, 6, 5, 3, 3],
                     backgroundColor: [
                         '#0ea5e9', '#0ea5e9', '#0ea5e9', '#94a3b8', 
                         '#0ea5e9', '#0ea5e9', '#f59e0b', '#ef4444'
