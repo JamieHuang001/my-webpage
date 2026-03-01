@@ -1,317 +1,457 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>工程部月度績效報告 (圖表版)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>工程營運與產能戰略報告</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary: #0f172a;
+            --blue: #2563eb;
+            --blue-light: #eff6ff;
+            --green: #059669;
+            --green-light: #ecfdf5;
+            --red: #dc2626;
+            --red-light: #fef2f2;
+            --orange: #ea580c;
+            --orange-light: #fff7ed;
+            --purple: #7c3aed;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
+            background-color: var(--bg-color);
+            font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            border: 1px solid #e2e8f0;
-        }
-        .kpi-value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            line-height: 2.5rem;
-            color: #0f172a;
-        }
-        .kpi-label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #64748b;
-        }
-        .chart-container {
+
+        /* 16:9 Slide Container */
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: var(--card-bg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            padding: 35px 50px;
             position: relative;
-            height: 300px;
+            overflow: hidden;
+            border-top: 8px solid var(--blue);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .header-left p {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .header-right .metric {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--blue);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .header-right .sub-metric {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        /* KPI Row */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 14px 18px;
+            border-left: 4px solid var(--border-color);
+        }
+
+        .kpi-card.warning { border-left-color: var(--orange); }
+        .kpi-card.success { border-left-color: var(--green); }
+        .kpi-card.danger { border-left-color: var(--red); background: var(--red-light); }
+        .kpi-card.info { border-left-color: var(--blue); }
+
+        .kpi-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 4px;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+        
+        .kpi-value span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .kpi-card.danger .kpi-value { color: var(--red); }
+
+        .kpi-desc {
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        /* Main Content 2 Columns */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            flex-grow: 1;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Left Column: Context & Problems */
+        .chart-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+        }
+
+        .progress-stacked {
+            display: flex;
+            height: 28px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 12px 0;
             width: 100%;
         }
-        @media print {
-            body { background-color: white; }
-            .no-print { display: none; }
-            .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+
+        .progress-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
         }
+
+        .seg-pm { background: var(--orange); width: 52.6%; }
+        .seg-repair { background: var(--blue); width: 34.1%; }
+        .seg-install { background: var(--green); width: 13.3%; }
+
+        .legend-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        .alert-box {
+            border-left: 4px solid var(--blue);
+            background: var(--blue-light);
+            padding: 16px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border-color: #bfdbfe;
+        }
+
+        .alert-box h4 {
+            color: var(--blue);
+            font-size: 15px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .alert-box p {
+            font-size: 13px;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Right Column: Actions */
+        .action-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .action-card.brand { border-top: 4px solid var(--purple); background: #faf5ff; border-color: #e9d5ff;}
+        .action-card.internal { border-top: 4px solid var(--orange); background: #fff7ed; border-color: #ffedd5;}
+
+        .action-card h3 {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-card.brand h3 { color: var(--purple); }
+        .action-card.internal h3 { color: var(--orange); }
+
+        .action-list {
+            list-style: none;
+        }
+
+        .action-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #334155;
+        }
+
+        .action-list li:last-child { margin-bottom: 0; }
+
+        .action-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--orange);
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .action-card.brand .action-list li::before { content: "◆"; color: var(--purple); font-size: 10px; top: 2px;}
+
+        .highlight {
+            font-weight: 700;
+            color: var(--primary);
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .brand-col {
+            background: #fff;
+            border: 1px solid #e9d5ff;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .brand-col h4 {
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 5px;
+            border-bottom: 1px solid #f3e8ff;
+            padding-bottom: 4px;
+        }
+
+        .brand-col p {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .badge-proactive {
+            background: var(--blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="slide">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive">自主追蹤數據</span></h1>
+            <p>評估週期：2026年2月 | 報告人：工程部主管 (基於部門自主建置之營運監控模組)</p>
+        </div>
+        <div class="header-right">
+            <div class="sub-metric">本月完修總量 / 雙人精銳產能</div>
+            <div class="metric">135 件 <span style="font-size: 15px; color: var(--green);"><i class="fa-solid fa-arrow-trend-up"></i> MoM +57%</span></div>
+        </div>
+    </div>
+
+    <!-- 4 Key Metrics -->
+    <div class="kpi-row">
+        <div class="kpi-card success">
+            <div class="kpi-title">內部維修效率 (淨TAT) <i class="fa-solid fa-bolt"></i></div>
+            <div class="kpi-value">2.6<span>天</span></div>
+            <div class="kpi-desc">首次修復率 100% / 返修率 0%<br><b>雙人團隊發揮極致技術量能</b></div>
+        </div>
+        <div class="kpi-card warning">
+            <div class="kpi-title">保固內案件佔比 <i class="fa-solid fa-shield-halved"></i></div>
+            <div class="kpi-value">60.7<span>%</span></div>
+            <div class="kpi-desc">總保固 82 件，<b>真實維修僅 16 件(19.5%)</b><br>其餘皆為佔用產能之常規保養</div>
+        </div>
+        <div class="kpi-card danger">
+            <div class="kpi-title">外部拖延致 SLA 逾期 <i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="kpi-value">12.6<span>%</span></div>
+            <div class="kpi-desc">本期共 17 件承諾超標<br><b>69.2% 肇因為原廠後送檢測延宕</b></div>
+        </div>
+        <div class="kpi-card info">
+            <div class="kpi-title">營運風險與妥善率 <i class="fa-solid fa-heart-pulse"></i></div>
+            <div class="kpi-value">97<span>%</span></div>
+            <div class="kpi-desc">592/609 台設備正常運作<br>EverFlo濾網缺料致氧氣機偏低(91%)</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
         
-        <!-- Header -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-200 pb-4">
-            <div>
-                <h1 class="text-3xl font-bold text-slate-800">工程部月度績效報告</h1>
-                <p class="text-slate-500 mt-1">統計區間：<span class="font-mono font-semibold text-blue-600">2025/11/19 - 2025/12/15</span></p>
+        <!-- Left Column -->
+        <div>
+            <div class="section-title"><i class="fa-solid fa-users-gear"></i> 產能結構：主動護盤雙人精銳戰力</div>
+            
+            <div class="chart-box">
+                <div style="font-size: 13px; font-weight: 700; color: var(--primary);">本月案件結構分佈 (總產能消耗 228 pt)</div>
+                <div class="progress-stacked">
+                    <div class="progress-segment seg-pm">常規保養 52.6%</div>
+                    <div class="progress-segment seg-repair">設備維修 34.1%</div>
+                    <div class="progress-segment seg-install">裝機 13.3%</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-item"><div class="dot" style="background: var(--orange);"></div> 例行保養 (71件)</div>
+                    <div class="legend-item"><div class="dot" style="background: var(--blue);"></div> 設備維修 (46件)</div>
+                    <div class="legend-item"><div class="dot" style="background: var(--green);"></div> 裝機/其他 (18件)</div>
+                </div>
             </div>
-            <div class="mt-4 md:mt-0 flex gap-3">
-                <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-sm font-semibold border border-slate-200">內部營運報表</span>
-                <button onclick="window.print()" class="no-print bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition text-sm flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                    列印報告
-                </button>
-            </div>
-        </div>
 
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Total Cases -->
-            <div class="card border-t-4 border-blue-500">
-                <div class="flex justify-between items-start">
+            <div class="alert-box">
+                <h4><i class="fa-solid fa-gem"></i> 自主數據洞察：82件保固案深度拆解</h4>
+                <p style="margin-bottom: 8px;">為精確保護公司僅有的 <b>2 位工程師</b> 戰力，<b>工程部主動導入產能數據追蹤</b>。本月工程師以高度自主排程，成功消化暴增至 135 件的總量。但主動分析揭露，82 件保固案中<b>真實維修僅 16 件</b>，其餘 66 件皆為常規保養，這意味著雙人產能已達物理極限。</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #bfdbfe;">
                     <div>
-                        <p class="kpi-label">總服務案件量</p>
-                        <p class="kpi-value">115 <span class="text-lg text-gray-400 font-normal">件</span></p>
+                        <div style="font-size: 12px; color: var(--blue); font-weight: 700;">真實維修 (16件) 難度分佈</div>
+                        <ul style="list-style: none; padding: 0; margin-top: 4px; font-size: 13px; color: #334155;">
+                            <li>▸ 外修判定：<b>8 件 <span style="color:var(--red);">(全轉外包)</span></b></li>
+                            <li>▸ 一般維修：6 件</li>
+                            <li>▸ 困難維修：2 件</li>
+                        </ul>
                     </div>
-                    <!-- 115 vs 170 (Previous) -->
-                    <div class="bg-slate-100 text-slate-600 text-xs font-bold px-2 py-1 rounded">量能趨緩</div>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-blue-500 h-1.5 rounded-full" style="width: 68%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">較前期減少 32.4%</p>
-            </div>
-
-            <!-- TAT -->
-            <div class="card border-t-4 border-green-500">
-                <div class="flex justify-between items-start">
                     <div>
-                        <p class="kpi-label">平均維修時效 (TAT)</p>
-                        <p class="kpi-value text-green-600">0.58 <span class="text-lg text-gray-400 font-normal">天</span></p>
+                        <div style="font-size: 12px; color: var(--blue); font-weight: 700;">真實維修 (16件) 品牌分佈</div>
+                        <ul style="list-style: none; padding: 0; margin-top: 4px; font-size: 13px; color: #334155;">
+                            <li>▸ <b>ResMed：8 件</b></li>
+                            <li>▸ <b>Philips：2 件</b></li>
+                            <li>▸ Other：6 件</li>
+                        </ul>
                     </div>
-                    <div class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">極優</div>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 15%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">目標 &lt; 3.0 天</p>
-            </div>
-
-            <!-- Repair Return Rate (New) -->
-            <div class="card border-t-4 border-purple-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="kpi-label">維修返修率</p>
-                        <p class="kpi-value">3.3 <span class="text-lg text-gray-400 font-normal">%</span></p>
-                    </div>
-                    <div class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded">良好</div>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-purple-500 h-1.5 rounded-full" style="width: 3.3%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">2 件返修 / 59 件維修</p>
-            </div>
-
-            <!-- Warranty Rate -->
-            <div class="card border-t-4 border-green-400">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="kpi-label">保固內案件佔比</p>
-                        <p class="kpi-value">24 <span class="text-lg text-gray-400 font-normal">%</span></p>
-                    </div>
-                    <div class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">改善</div>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4">
-                    <div class="bg-green-400 h-1.5 rounded-full" style="width: 24%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">較前期下降 10% (優化)</p>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <!-- Chart 1: Device Mix -->
-            <div class="card">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">設備類型分佈</h3>
-                <div class="chart-container">
-                    <canvas id="deviceChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Chart 2: Service Type Mix -->
-            <div class="card">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">服務項目佔比</h3>
-                <div class="chart-container">
-                    <canvas id="serviceChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Comparison Table -->
-        <div class="card mb-8">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">前期數據比較</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">指標</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">前期 (10/15-11/18)</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">本期 (11/19-12/15)</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">變動</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">總服務量</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">170 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">115 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 32.4%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">維修件數</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">69 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">59 件</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-red-500">▼ 14.5%</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">保固佔比</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">34%</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">24%</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">▲ 優化 10%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Analysis & Action Plan -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Analysis -->
-            <div class="card md:col-span-2">
-                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                    <svg class="w-6 h-6 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    工程績效深度解析
-                </h3>
-                <div class="space-y-4">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-blue-500 mr-3"></div>
-                        <div>
-                            <strong class="block text-gray-900">保固佔比與品質改善</strong>
-                            <p class="text-sm text-gray-600 mt-1">
-                                本月保固內維修佔比降至 24%，顯示品質管控成效顯著。維修返修率為 3.3%（2件），維持在可控範圍內，建議針對該 2 件返修案例進行根因分析。
-                            </p>
-                        </div>
+        <!-- Right Column -->
+        <div>
+            <div class="section-title"><i class="fa-solid fa-chess-knight"></i> 品牌效益評估與超前部署聲明</div>
+            
+            <!-- Strategic Action: Brand Analysis (NEW) -->
+            <div class="action-card brand">
+                <h3><i class="fa-solid fa-code-compare"></i> [主動提案] 品牌維護模型差異化分析</h3>
+                <div class="brand-grid">
+                    <div class="brand-col">
+                        <h4><i class="fa-solid fa-truck-fast" style="color: var(--orange);"></i> ResMed 模組</h4>
+                        <p>採<b>「後送維修」</b>機制。本期 <b>8 件</b>真實維修全數落入「外修判定」，隱含高昂委外成本，且其原廠檢測延宕正是導致 SLA 逾期的絕對元凶。</p>
                     </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-green-500 mr-3"></div>
-                        <div>
-                            <strong class="block text-gray-900">TAT 0.58 天，效率極佳</strong>
-                            <p class="text-sm text-gray-600 mt-1">團隊維持超高效率，平均完修時間僅 0.58 天。本月一般維修（23件）與居家保養（57件）為主要工作量來源。</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-indigo-500 mr-3"></div>
-                        <div>
-                            <strong class="block text-gray-900">業務類型分佈</strong>
-                            <p class="text-sm text-gray-600 mt-1">
-                                居家裝機 (6件) 與醫院安裝 (11件) 保持穩定。困難維修 (3件) 數量較少，但仍需投入較多工時處理。
-                            </p>
-                        </div>
+                    <div class="brand-col">
+                        <h4><i class="fa-solid fa-screwdriver-wrench" style="color: var(--blue);"></i> Philips 模組</h4>
+                        <p>具備<b>「在台自主維修」</b>能力。本期 <b>2 件</b>真實故障全由內部直接消化，免去後送成本，且維持 <b>2.3 天</b>的極速完修流速。</p>
                     </div>
                 </div>
+                <ul class="action-list">
+                    <li><span class="highlight">採購推廣戰略建議：</span>基於工程部主動蒐集之流速數據，強烈建議公司未來設備採購與業務推廣，應優先鎖定「具備在台自主維修可行性 (如 Philips)」之品牌，以極大化現有雙人戰力並避開外包延宕風險。</li>
+                </ul>
             </div>
 
-            <!-- Action Plan -->
-            <div class="card bg-slate-50 border-slate-200">
-                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
-                    <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    下月行動建議
-                </h3>
-                <ul class="space-y-4">
-                    <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">1. 返修案例追蹤</strong>
-                        <p class="text-xs text-gray-600">針對本月 2 件返修案建立改善對策，目標將返修率壓低至 1% 以下。</p>
-                    </li>
-                    <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">2. 提升服務總量</strong>
-                        <p class="text-xs text-gray-600">本月案件量 115 件較前期減少，建議與業務端配合，增加冬季設備巡檢或保養邀約。</p>
-                    </li>
-                    <li class="bg-white p-3 rounded shadow-sm border border-slate-100">
-                        <strong class="text-sm text-indigo-700 block mb-1">3. 持續監控 CPAP 品質</strong>
-                        <p class="text-xs text-gray-600">CPAP 維修量 (25件) 仍佔大宗，需持續關注馬達與受潮問題。</p>
-                    </li>
+            <!-- Internal Actions -->
+            <div class="action-card internal">
+                <h3><i class="fa-solid fa-bullhorn"></i> [管理聲明] 跨部門期望管理與邊界釐清</h3>
+                <ul class="action-list">
+                    <li><span class="highlight">SLA 考核指標脫鉤要求：</span>原廠後送檢測（如 ResMed）之時效屬外部不可控因素。工程部將於第一時間提供備機以防堵客訴，但為真實反映雙人團隊之高效率(TAT 2.6天)，要求後續將「外修案件」與「內部完修」之 SLA 評估脫鉤。</li>
+                    <li><span class="highlight">保養產能臨界點警示：</span>2 位工程師以自主排程兼顧高達 71 件保養案與緊急維修，產能已達飽和。未來若業務端持續承諾新增「定期到府保養」合約，將不可避免地排擠核心故障排除之時效，懇請公司高層正視此零和效應。</li>
                 </ul>
             </div>
         </div>
 
-        <div class="text-center mt-8 text-gray-400 text-xs">
-            © 2025 永定生物科技 工程部 | 內部機密文件
-        </div>
     </div>
+</div>
 
-    <!-- Chart Configuration Script -->
-    <script>
-        // Chart 1: Device Types (Pie Chart)
-        const ctxDevice = document.getElementById('deviceChart').getContext('2d');
-        new Chart(ctxDevice, {
-            type: 'doughnut',
-            data: {
-                labels: ['CPAP (25件)', 'BiPAP (17件)', 'PSG (9件)', '氧氣機 (8件)'],
-                datasets: [{
-                    data: [25, 17, 9, 8],
-                    backgroundColor: [
-                        '#3b82f6', // Blue
-                        '#6366f1', // Indigo
-                        '#8b5cf6', // Violet
-                        '#14b8a6'  // Teal
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { boxWidth: 12, font: { size: 11 } }
-                    }
-                }
-            }
-        });
-
-        // Chart 2: Service Types (Bar Chart)
-        const ctxService = document.getElementById('serviceChart').getContext('2d');
-        new Chart(ctxService, {
-            type: 'bar',
-            data: {
-                labels: ['居家保養', '一般維修', '醫院安裝', 'QC檢測', '居家裝機', '醫院保養', '外修', '困難維修'],
-                datasets: [{
-                    label: '案件數',
-                    data: [57, 23, 11, 6, 6, 5, 3, 3],
-                    backgroundColor: [
-                        '#0ea5e9', '#0ea5e9', '#0ea5e9', '#94a3b8', 
-                        '#0ea5e9', '#0ea5e9', '#f59e0b', '#ef4444'
-                    ],
-                    borderRadius: 4,
-                    barThickness: 20
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: { display: false }
-                    },
-                    x: {
-                        grid: { display: false }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
