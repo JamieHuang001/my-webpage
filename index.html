@@ -91,14 +91,14 @@
         }
 
         .badge-proactive {
-            background: linear-gradient(135deg, var(--brand-accent), #60a5fa);
+            background: linear-gradient(135deg, var(--status-info), #60a5fa);
             color: white;
             padding: 4px 10px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 0.5px;
-            box-shadow: var(--shadow-glow);
+            box-shadow: var(--shadow-sm);
             white-space: nowrap;
         }
 
@@ -213,6 +213,7 @@
 
         .kpi-value span { font-size: 14px; font-weight: 700; color: var(--text-muted); }
         .kpi-card.danger .kpi-value { color: var(--status-danger); }
+        .kpi-card.warning .kpi-value { color: var(--status-warning); }
 
         .kpi-desc {
             font-size: 12px;
@@ -257,123 +258,62 @@
             flex-direction: column;
         }
 
-        /* 視覺化漏斗 (Data Funnel) UX 設計 */
-        .funnel-container {
+        /* 保養海嘯進度條 UX 設計 (New) */
+        .backlog-container {
             background: #f8fafc;
             border-radius: 8px;
             padding: 16px;
             margin-top: 12px;
             border: 1px solid #e2e8f0;
-        }
-
-        .funnel-step {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 10px 16px;
-            border-radius: 6px;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            z-index: 2;
-        }
-
-        .funnel-step.danger { border-color: #fca5a5; background: var(--status-danger-bg); }
-
-        .funnel-arrow {
-            text-align: center;
-            color: #cbd5e1;
-            font-size: 16px;
-            margin: 4px 0;
-            z-index: 1;
-        }
-        
-        /* Data Badges for Difficulty */
-        .difficulty-badges {
-            display: flex;
-            gap: 8px;
-            margin: 10px 0;
-            justify-content: center;
-        }
-        
-        .diff-badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid;
-        }
-        
-        .diff-normal { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
-        .diff-hard { background: #fef08a; color: #a16207; border-color: #fde047; }
-        .diff-out { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
-
-        .funnel-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-top: 6px;
-        }
-
-        .funnel-branch {
-            background: white;
-            padding: 12px 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-light);
-            text-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-        }
-
-        .funnel-branch.bad { border-top: 3px solid var(--status-danger); }
-        .funnel-branch.good { border-top: 3px solid var(--brand-accent); }
-
-        .funnel-num { font-size: 20px; font-weight: 900; font-family: 'DM Sans', sans-serif; }
-        .funnel-label { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-top: 4px; line-height: 1.4;}
-
-        /* 品牌比較 VS UI */
-        .brand-vs-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 16px;
-            margin-top: 12px;
         }
 
-        .brand-card {
-            border-radius: 8px;
-            padding: 16px;
-            border: 1px solid;
+        .backlog-item h4 {
+            font-size: 13px;
+            color: var(--brand-primary);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pg-bar-bg {
+            background: #e2e8f0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
             position: relative;
         }
 
-        .brand-card.risk {
-            background: var(--status-danger-bg);
-            border-color: #fca5a5;
+        .pg-bar-fill {
+            height: 100%;
+            background: var(--brand-accent);
+            border-radius: 6px;
+            transition: width 0.5s ease;
         }
         
-        .brand-card.recommend {
-            background: var(--status-info-bg);
-            border-color: #bfdbfe;
-        }
+        .pg-bar-fill.success { background: var(--status-success); }
 
-        .brand-card h4 {
-            font-size: 15px;
-            font-weight: 900;
-            margin-bottom: 8px;
+        .backlog-stats {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
         }
 
-        .brand-card.risk h4 { color: var(--status-danger); }
-        .brand-card.recommend h4 { color: var(--brand-accent); }
-
-        .brand-card p {
-            font-size: 12px;
-            line-height: 1.5;
-            color: var(--text-main);
+        .stat-success {
+            color: var(--status-success);
+            font-weight: 900;
+            font-size: 14px;
+        }
+        
+        .stat-info {
+            color: var(--status-info);
+            font-weight: 900;
+            font-size: 14px;
         }
 
         /* 行動清單 UI */
@@ -399,8 +339,9 @@
             border-left: 3px solid var(--text-muted);
         }
 
-        .action-list li.performance { border-left-color: var(--status-success); background: white; border: 1px solid #a7f3d0; border-left: 4px solid var(--status-success);}
+        .action-list li.critical { border-left-color: var(--status-danger); background: white; border: 1px solid #fca5a5; border-left: 4px solid var(--status-danger);}
         .action-list li.policy { border-left-color: var(--status-purple); background: white; border: 1px solid #e9d5ff; border-left: 4px solid var(--status-purple);}
+        .action-list li.leveling { border-left-color: var(--status-info); background: white; border: 1px solid #bfdbfe; border-left: 4px solid var(--status-info);}
 
         .action-list li::before {
             font-family: 'Font Awesome 6 Free';
@@ -411,8 +352,9 @@
             font-size: 12px;
         }
 
-        .action-list li.performance::before { content: '\f00c'; color: var(--status-success); }
+        .action-list li.critical::before { content: '\f071'; color: var(--status-danger); }
         .action-list li.policy::before { content: '\f0e3'; color: var(--status-purple); }
+        .action-list li.leveling::before { content: '\f0ce'; color: var(--status-info); }
 
         .highlight-title {
             font-weight: 900;
@@ -440,12 +382,12 @@
 
         .segments-insight {
             font-size: 12px;
-            color: var(--status-danger);
+            color: white;
             font-weight: 700;
-            background: var(--status-danger-bg);
+            background: rgba(255,255,255,0.1);
             padding: 4px 10px;
             border-radius: 4px;
-            border: 1px solid #fca5a5;
+            border: 1px solid #334155;
         }
 
         .segment-grid {
@@ -501,8 +443,8 @@
         .seg-install .seg-card-header i { color: #fbbf24; }
         .seg-install .seg-val.primary { color: #fbbf24; }
 
-        .seg-internal .seg-card-header i { color: #34d399; }
-        .seg-internal .seg-val.primary { color: #60a5fa; }
+        .seg-internal .seg-card-header i { color: #a8a29e; }
+        .seg-internal .seg-val.primary { color: #a8a29e; }
 
         /* ================= RWD 響應式佈局設定 ================= */
         @media (max-width: 1024px) {
@@ -518,8 +460,6 @@
             .header-right { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
             .kpi-column { grid-template-columns: 1fr; }
             .strategy-content-grid { grid-template-columns: 1fr; }
-            .funnel-split { grid-template-columns: 1fr; }
-            .brand-vs-container { grid-template-columns: 1fr; }
             .segment-grid { grid-template-columns: 1fr; }
             .segments-header { flex-direction: column; align-items: flex-start; gap: 8px;}
         }
@@ -531,43 +471,46 @@
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-radar"></i> 自主數據追蹤</span></h1>
-            <p>評估週期：2026年2月 | 報告人：工程部主管 | 核心命題：最大化現有編制之產能護城河</p>
+            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-chart-line"></i> 產能平準化戰略</span></h1>
+            <p>評估週期：2026年3月(首週) | 報告人：工程部主管 | 核心命題：年度總工時充沛，聚焦排程平準化與外部風險控管</p>
         </div>
         <div class="header-right">
-            <div class="sub-metric">現有編制總完修量</div>
-            <div class="metric">135 <span style="font-size: 16px; color: var(--status-success);"><i class="fa-solid fa-arrow-trend-up"></i> +57%</span></div>
+            <div class="sub-metric">本期完修總量 (首週)</div>
+            <div class="metric">15 <span style="font-size: 14px; color: var(--text-muted); font-weight: 500;">件</span></div>
         </div>
     </div>
 
     <div class="dashboard-grid">
         <!-- Left Column: 4 KPIs -->
         <div class="kpi-column">
-            <div class="kpi-card success">
+            <!-- 更改為 Info：不是能力不夠，是短期排程集中 -->
+            <div class="kpi-card info">
                 <div class="kpi-header">
                     <span class="kpi-title">內部維修效率 (淨TAT)</span>
                     <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
                 </div>
-                <div class="kpi-value">2.6<span>天</span></div>
-                <div class="kpi-desc">首次修復 100% / 返修率 0%<br><strong>工程團隊已發揮物理極限效能</strong></div>
+                <div class="kpi-value">3.3<span>天</span></div>
+                <div class="kpi-desc">首次修復 100% / 返修率 0%<br><strong>受單週保養過度集中影響，微幅波動</strong></div>
             </div>
 
-            <div class="kpi-card info">
+            <!-- 更改為 Success：工時充沛游刃有餘 -->
+            <div class="kpi-card success">
                 <div class="kpi-header">
-                    <span class="kpi-title">外勤保養合約履約</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-people-carry-box"></i></div>
+                    <span class="kpi-title">年度保養總工時餘裕度</span>
+                    <div class="kpi-icon"><i class="fa-solid fa-calendar-check"></i></div>
                 </div>
-                <div class="kpi-value">71<span>件</span></div>
-                <div class="kpi-desc">穩健輸出佔全月 52.6% 總產能<br><strong>成功維繫設備妥善率與客戶滿意度</strong></div>
+                <div class="kpi-value" style="font-size: 26px;">401<span>/年</span> + 38<span>/月</span></div>
+                <div class="kpi-desc">以工程團隊全年度總工時精算<br><strong>消化常規保養游刃有餘，關鍵在均攤</strong></div>
             </div>
 
+            <!-- 保持 Danger：外廠拖延是絕對的缺點 -->
             <div class="kpi-card danger">
                 <div class="kpi-header">
                     <span class="kpi-title">外部拖延致 SLA 逾期</span>
                     <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 </div>
-                <div class="kpi-value">12.6<span>%</span></div>
-                <div class="kpi-desc">本期共 17 件承諾超標<br><strong>高達 69.2% 肇因為原廠檢測延宕</strong></div>
+                <div class="kpi-value">20.0<span>%</span></div>
+                <div class="kpi-desc">本期共 3 件承諾超標<br><strong>其中 2 件為「外修判定」導致延宕</strong></div>
             </div>
 
             <div class="kpi-card success" style="border-left-color: var(--status-success);">
@@ -575,8 +518,8 @@
                     <span class="kpi-title">全線設備妥善率</span>
                     <div class="kpi-icon"><i class="fa-solid fa-heart-pulse"></i></div>
                 </div>
-                <div class="kpi-value">97<span>%</span></div>
-                <div class="kpi-desc">592/609 台設備正常運作<br><strong>確保醫療業務與產能穩定輸出</strong></div>
+                <div class="kpi-value">95<span>%</span></div>
+                <div class="kpi-desc">279/295 台設備正常運作<br><strong>確保醫療業務與產能穩定輸出</strong></div>
             </div>
         </div>
 
@@ -584,91 +527,67 @@
         <div class="strategy-column">
             
             <div class="section-header">
-                <i class="fa-solid fa-microscope"></i> 深度洞察與跨部門防線設定
+                <i class="fa-solid fa-microscope"></i> 深度洞察與跨部門平準化戰略
             </div>
 
             <div class="strategy-content-grid">
                 
-                <!-- 洞察一：保固案拆解漏斗 -->
+                <!-- 洞察一：產能健檢與平準化 -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-filter"></i> 82件保固案深度拆解</h3>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">主動追蹤顯示，16 件真實故障中高達 9 件被迫落入「外修判定」，且高度集中於單一品牌。</p>
+                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-stethoscope"></i> 產能健檢：年度總工時充裕</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">經測算，現有團隊消化全年度保養綽綽有餘。本期 TAT 上升至 3.3 天非產能不足，純粹為「短期排程撞期急修」所致。</p>
                     
-                    <div class="funnel-container">
-                        <div class="funnel-step">
-                            <span style="font-weight: 700; color: var(--text-main); font-size: 14px;">總保固進場件數</span>
-                            <span class="funnel-num">82<span style="font-size:12px; color:var(--text-muted);"> 件</span></span>
-                        </div>
-                        <div class="funnel-arrow"><i class="fa-solid fa-caret-down"></i></div>
-                        <div class="funnel-step danger">
-                            <span style="font-weight: 900; color: var(--status-danger); font-size: 14px;">真實機件故障維修</span>
-                            <span class="funnel-num" style="color: var(--status-danger);">16<span style="font-size:12px;"> 件 (19.5%)</span></span>
-                        </div>
-                        
-                        <!-- 難度分佈資料標籤 -->
-                        <div class="difficulty-badges">
-                            <div class="diff-badge diff-normal">一般 5 件</div>
-                            <div class="diff-badge diff-hard">困難 2 件</div>
-                            <div class="diff-badge diff-out">外修判定 9 件</div>
+                    <div class="backlog-container">
+                        <div class="backlog-item">
+                            <h4>醫院保養總任務 <span>(年度共 479 機台次)</span></h4>
+                            <div class="pg-bar-bg">
+                                <div class="pg-bar-fill success" style="width: 16%;"></div>
+                            </div>
+                            <div class="backlog-stats">
+                                <span>已完: 78 (16%)</span>
+                                <span>年度待排程: <span class="stat-success">401</span> 件 (余裕足夠)</span>
+                            </div>
                         </div>
 
-                        <!-- 品牌分佈漏斗 -->
-                        <div class="funnel-split">
-                            <div class="funnel-branch bad">
-                                <div class="funnel-num" style="color: var(--status-danger);">10</div>
-                                <div class="funnel-label">ResMed<br>(9件落入外修)</div>
+                        <div class="backlog-item">
+                            <h4>居家保養任務 <span>(單月共 51 件)</span></h4>
+                            <div class="pg-bar-bg">
+                                <div class="pg-bar-fill" style="width: 25%;"></div>
                             </div>
-                            <div class="funnel-branch good">
-                                <div class="funnel-num" style="color: var(--brand-accent);">5</div>
-                                <div class="funnel-label">Philips<br>(全廠內自修)</div>
-                            </div>
-                            <div class="funnel-branch" style="border-top: 3px solid var(--text-muted);">
-                                <div class="funnel-num" style="color: var(--text-muted);">1</div>
-                                <div class="funnel-label">Other<br>(廠內自修)</div>
+                            <div class="backlog-stats">
+                                <span>已完: 13 (25%)</span>
+                                <span>本月待派未完: <span class="stat-info">38</span> 件</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 洞察二：品牌戰略與管理聲明 -->
+                <!-- 洞察二：管理聲明 -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-scale-balanced"></i> 品牌模型對比與管理聲明</h3>
+                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> 跨部門期望管理與流程優化</h3>
                     
-                    <!-- Brand VS UI -->
-                    <div class="brand-vs-container">
-                        <div class="brand-card risk">
-                            <h4><i class="fa-solid fa-circle-xmark"></i> ResMed 模式</h4>
-                            <p><strong>[後送外修]</strong> 機制。10件故障中有9件卡在外廠判定，為本期 SLA 逾期之絕對元凶。</p>
-                        </div>
-                        <div class="brand-card recommend">
-                            <h4><i class="fa-solid fa-circle-check"></i> Philips 模式</h4>
-                            <p><strong>[在台自修]</strong> 能力。5件故障全由內部消化，免去後送成本並維持極速流速。</p>
-                        </div>
-                    </div>
-
-                    <!-- Action Policies -->
-                    <ul class="action-list">
-                        <li class="policy">
-                            <span class="highlight-title">採購戰略與 SLA 脫鉤要求</span>
-                            為極大化現有工程戰力，未來設備採購應優先鎖定「具備在台自修能力」之品牌。同時，<strong>「外廠後送」之 SLA 時效因不可控，必須與工程部內部考核脫鉤。</strong>
+                    <ul class="action-list" style="margin-top: 8px;">
+                        <li class="leveling">
+                            <span class="highlight-title">保養排程平準化 (Leveling)</span>
+                            以團隊年度總工時評估，現有保養量綽綽有餘。為根除單週排程過度集中導致的維修塞車，建議推動「醫院集中保養日」並按季均攤，確保急修量能常保暢通。
                         </li>
-                        <li class="performance">
-                            <span class="highlight-title">常規保養排程最佳化 (核心績效)</span>
-                            保養為確保設備妥善率及部門 KPI 之必要環節。工程團隊已透過自主排程，高效完成 71 件任務。未來將持續精進區域集中規劃，在現有編制下穩固最佳服務品質。
+                        <li class="policy">
+                            <span class="highlight-title">外修延宕與 SLA 脫鉤要求</span>
+                            本期雖僅 6 天，但真實故障仍受制於原廠 (ResMed 等) 機制。2 件外修判定 100% 導致 SLA 超標。<strong>外部行政拖延不可控，必須與工程部內部效率考核脫鉤。</strong>
                         </li>
                     </ul>
                 </div>
 
             </div>
             
-            <!-- 四大業務板塊 UI (New Dark Mode Cards to match Image) -->
+            <!-- 四大業務板塊 UI -->
             <div class="insight-card" style="padding: 16px; background: #0f172a; border-color: #1e293b;">
                 <div class="segments-header">
                     <div class="segments-title" style="color: white;">
-                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 四大業務板塊分析 (產能消耗檢視)
+                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 本期業務板塊分析 (總產能消耗 25.0 pt)
                     </div>
                     <div class="segments-insight">
-                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：維修佔用 34% 產能，卻是部門核心技術價值之所在！
+                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：年度總產能充裕，重點在於避免『計劃性保養』與『突發性急修』撞期！
                     </div>
                 </div>
                 
@@ -681,11 +600,11 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">46 件 (34.1%)</span>
+                            <span class="seg-val primary">8 件 (53.3%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">89.0 pt</span>
+                            <span class="seg-val">14.0 pt</span>
                         </div>
                     </div>
 
@@ -697,11 +616,11 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">71 件 (52.6%)</span>
+                            <span class="seg-val primary">4 件 (26.7%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">104.0 pt</span>
+                            <span class="seg-val">7.0 pt</span>
                         </div>
                     </div>
 
@@ -713,27 +632,27 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">15 件 (11.1%)</span>
+                            <span class="seg-val primary">1 件 (6.7%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">32.0 pt</span>
+                            <span class="seg-val">2.0 pt</span>
                         </div>
                     </div>
 
-                    <!-- 內部整備 -->
+                    <!-- 其他/檢測 -->
                     <div class="seg-card seg-internal">
                         <div class="seg-card-header">
-                            <i class="fa-solid fa-recycle"></i>
-                            <div>內部整備<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">內部設備資產整備</span></div>
+                            <i class="fa-solid fa-clipboard-check"></i>
+                            <div>其他與檢測<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">簡易檢測與預設設定</span></div>
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">0 件 (0.0%)</span>
+                            <span class="seg-val primary">2 件 (13.3%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">0.0 pt</span>
+                            <span class="seg-val">2.0 pt</span>
                         </div>
                     </div>
                 </div>
