@@ -243,7 +243,7 @@
 
         .strategy-content-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.1fr; /* 右側稍微寬一點以容納標籤 */
             gap: 20px;
         }
 
@@ -258,7 +258,7 @@
             flex-direction: column;
         }
 
-        /* 保養海嘯進度條 UX 設計 (New) */
+        /* 保養海嘯進度條 UX 設計 */
         .backlog-container {
             background: #f8fafc;
             border-radius: 8px;
@@ -304,17 +304,8 @@
             font-weight: 500;
         }
 
-        .stat-success {
-            color: var(--status-success);
-            font-weight: 900;
-            font-size: 14px;
-        }
-        
-        .stat-info {
-            color: var(--status-info);
-            font-weight: 900;
-            font-size: 14px;
-        }
+        .stat-success { color: var(--status-success); font-weight: 900; font-size: 14px; }
+        .stat-info { color: var(--status-info); font-weight: 900; font-size: 14px; }
 
         /* 行動清單 UI */
         .action-list {
@@ -339,7 +330,6 @@
             border-left: 3px solid var(--text-muted);
         }
 
-        .action-list li.critical { border-left-color: var(--status-danger); background: white; border: 1px solid #fca5a5; border-left: 4px solid var(--status-danger);}
         .action-list li.policy { border-left-color: var(--status-purple); background: white; border: 1px solid #e9d5ff; border-left: 4px solid var(--status-purple);}
         .action-list li.leveling { border-left-color: var(--status-info); background: white; border: 1px solid #bfdbfe; border-left: 4px solid var(--status-info);}
 
@@ -352,7 +342,6 @@
             font-size: 12px;
         }
 
-        .action-list li.critical::before { content: '\f071'; color: var(--status-danger); }
         .action-list li.policy::before { content: '\f0e3'; color: var(--status-purple); }
         .action-list li.leveling::before { content: '\f0ce'; color: var(--status-info); }
 
@@ -361,6 +350,31 @@
             color: var(--text-main);
             display: block;
             margin-bottom: 2px;
+        }
+
+        /* 資源標籤 (Spare Chips) UI */
+        .spare-chip {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 3px 8px 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .spare-chip .qty {
+            background: var(--status-success);
+            color: white;
+            font-weight: 900;
+            font-family: 'DM Sans', sans-serif;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 11px;
         }
 
         /* 四大業務板塊 UI */
@@ -562,20 +576,35 @@
                     </div>
                 </div>
 
-                <!-- 洞察二：管理聲明 -->
+                <!-- 洞察二：管理聲明與戰備池 (NEW) -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> 跨部門期望管理與流程優化</h3>
+                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> 跨部門期望管理與戰備資源池</h3>
                     
-                    <ul class="action-list" style="margin-top: 8px;">
+                    <ul class="action-list" style="margin-top: 8px; margin-bottom: 12px;">
                         <li class="leveling">
                             <span class="highlight-title">保養排程平準化 (Leveling)</span>
-                            以團隊年度總工時評估，現有保養量綽綽有餘。為根除單週排程過度集中導致的維修塞車，建議推動「醫院集中保養日」並按季均攤，確保急修量能常保暢通。
+                            建議推動「醫院集中保養日」並按季均攤，根除單週排程過度集中導致的維修塞車。
                         </li>
                         <li class="policy">
-                            <span class="highlight-title">外修延宕與 SLA 脫鉤要求</span>
-                            本期雖僅 6 天，但真實故障仍受制於原廠 (ResMed 等) 機制。2 件外修判定 100% 導致 SLA 超標。<strong>外部行政拖延不可控，必須與工程部內部效率考核脫鉤。</strong>
+                            <span class="highlight-title">外修防護與 SLA 脫鉤</span>
+                            原廠外修延宕屬不可控因素，必須與內部考核脫鉤。作為配套防護，工程部已備妥以下 8 台機型填補空窗。
                         </li>
                     </ul>
+
+                    <!-- 新增：備機資源池 Chips -->
+                    <div style="border-top: 1px dashed var(--border-light); padding-top: 12px; margin-top: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <span style="font-size: 13px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-box-open" style="color: var(--status-success);"></i> 業務端可調度備機池</span>
+                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">共 <span style="color: var(--status-success); font-size: 13px;">8</span> 台就緒</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="spare-chip">DreamStation ST30 <span class="qty">2</span></span>
+                            <span class="spare-chip">Lumis 150 <span class="qty">2</span></span>
+                            <span class="spare-chip">Trilogy 100 <span class="qty">1</span></span>
+                            <span class="spare-chip">EverFlo 氧氣機 <span class="qty">2</span></span>
+                            <span class="spare-chip">怡氧製氧機 <span class="qty">1</span></span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
