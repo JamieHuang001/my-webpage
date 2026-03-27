@@ -294,6 +294,7 @@
         }
         
         .pg-bar-fill.success { background: var(--status-success); }
+        .pg-bar-fill.danger { background: var(--status-danger); }
 
         .backlog-stats {
             display: flex;
@@ -488,56 +489,56 @@
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-bolt"></i> 產能平準化勝仗</span></h1>
-            <p>評估週期：2026年3月(前三週) | 報告人：工程部主管 | 核心命題：精銳戰力流速突破與氧氣機風險控管</p>
+            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-trophy"></i> 平準化全面勝仗</span></h1>
+            <p>評估週期：2026年3月(全月) | 報告人：工程部主管 | 核心命題：完美防禦底載，TAT年度極速突破</p>
         </div>
         <div class="header-right">
             <div class="sub-metric">本期完修總量</div>
-            <div class="metric">82 <span style="font-size: 14px; color: var(--text-muted); font-weight: 500;">件</span></div>
+            <div class="metric">133 <span style="font-size: 14px; color: var(--text-muted); font-weight: 500;">件</span></div>
         </div>
     </div>
 
     <div class="dashboard-grid">
         <!-- Left Column: 4 KPIs -->
         <div class="kpi-column">
-            <!-- 巨大勝利：TAT 降到 2.4 -->
-            <div class="kpi-card success">
+            <!-- 史詩級勝利：TAT 降到 2.0 -->
+            <div class="kpi-card success" style="border-left-width: 6px;">
                 <div class="kpi-header">
-                    <span class="kpi-title">內部維修效率 (淨TAT)</span>
+                    <span class="kpi-title" style="color: var(--status-success);">內部維修效率 (淨TAT) - 年度極速</span>
                     <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
                 </div>
-                <div class="kpi-value">2.4<span>天</span></div>
-                <div class="kpi-desc">首次修復 100% / 返修率 0%<br><strong>排程平準化發揮奇效，流速大幅超越上月</strong></div>
+                <div class="kpi-value">2.0<span>天</span></div>
+                <div class="kpi-desc">首次修復 100% / 返修率 0%<br><strong>平準化戰略大獲全勝，內部流速達巔峰極限</strong></div>
             </div>
 
-            <!-- 常規保養負載平穩去化 -->
+            <!-- 常規保養負載完美去化 -->
             <div class="kpi-card info">
                 <div class="kpi-header">
                     <span class="kpi-title">常規保養進度與餘裕度</span>
                     <div class="kpi-icon"><i class="fa-solid fa-calendar-check"></i></div>
                 </div>
-                <div class="kpi-value" style="font-size: 26px;">389<span>/年待辦</span> + 14<span>/月待派</span></div>
-                <div class="kpi-desc">已完 87 件醫院與 41 件居家保養<br><strong>現有編制平穩去化底載，產能調度得宜</strong></div>
+                <div class="kpi-value" style="font-size: 26px;">371<span>/年待辦</span> + 4<span>/月待派</span></div>
+                <div class="kpi-desc">已完 105 件醫院與 52 件居家保養<br><strong>成功去化居家待派海嘯(自38降至4件)</strong></div>
             </div>
 
-            <!-- SLA 超標 (依然受制於外修) -->
+            <!-- 100% 肇因於外修的 SLA 超標 -->
             <div class="kpi-card danger">
                 <div class="kpi-header">
                     <span class="kpi-title">外部拖延致 SLA 逾期</span>
                     <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 </div>
-                <div class="kpi-value">7.3<span>%</span></div>
-                <div class="kpi-desc">本期共 6 件承諾超標<br><strong>高達 83% (5件) 肇因為原廠檢測延宕</strong></div>
+                <div class="kpi-value">6.8<span>%</span></div>
+                <div class="kpi-desc">本期共 9 件承諾超標<br><strong>100% (9件) 肇因為「外修判定」延宕，內部零缺失</strong></div>
             </div>
 
-            <!-- ★★★ 氧氣機妥善率掉到 75% 的警訊 ★★★ -->
+            <!-- 氧氣機妥善率 75% 的警訊 -->
             <div class="kpi-card warning" style="border-left-color: var(--status-warning); background: var(--status-warning-bg);">
                 <div class="kpi-header">
-                    <span class="kpi-title" style="color: #92400e;">氧氣機妥善率下滑警示</span>
+                    <span class="kpi-title" style="color: #92400e;">氧氣機妥善率風險警示</span>
                     <div class="kpi-icon" style="background: var(--status-warning); color: white;"><i class="fa-solid fa-heart-pulse"></i></div>
                 </div>
                 <div class="kpi-value" style="color: #92400e;">75<span>%</span></div>
-                <div class="kpi-desc">39/52台正常 (整體設備則維持 92%)<br><strong>產線妥善率出現缺口，需密切監控庫存與叫修</strong></div>
+                <div class="kpi-desc">39/52台正常 (整體設備為 92%)<br><strong>產線妥善率出現缺口，需啟動戰備調度防護</strong></div>
             </div>
         </div>
 
@@ -550,60 +551,64 @@
 
             <div class="strategy-content-grid">
                 
-                <!-- 洞察一：產能健檢與保養去化 -->
+                <!-- 洞察一：保固案漏斗拆解 (更新為 17件總保固) -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-stethoscope"></i> 保固案深度拆解：外包依賴風險</h3>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">主動追蹤顯示，本期 13 件保固維修中，高達 12 件為真實故障。然而品牌間的「處置難度」存在極大落差。</p>
+                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-filter"></i> 保固案深度拆解：100% 外包致命傷</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">主動追蹤顯示，15 件真實保固故障中，有 9 件被迫送外修，且<b>這 9 件包辦了本月所有的 SLA 逾期。</b></p>
                     
                     <div class="backlog-container" style="gap: 10px;">
                         <div class="backlog-item">
-                            <h4>保固內進場件數 <span>13 件</span></h4>
+                            <h4>總保固內進場件數 <span>17 件</span></h4>
                             <div class="pg-bar-bg">
                                 <div class="pg-bar-fill warning" style="width: 100%;"></div>
                             </div>
                         </div>
 
                         <div class="backlog-item">
-                            <h4>真實機件故障 <span>12 件 (92.3%)</span></h4>
+                            <h4>真實機件故障 <span>15 件 (88.2%)</span></h4>
                             <div class="pg-bar-bg">
-                                <div class="pg-bar-fill danger" style="width: 92%;"></div>
+                                <div class="pg-bar-fill danger" style="width: 88%;"></div>
                             </div>
                         </div>
                         
-                        <!-- 品牌拆解標籤 -->
-                        <div style="display: flex; gap: 8px; margin-top: 4px;">
-                            <span style="font-size:11px; padding:4px 8px; border-radius:4px; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; font-weight:700;">ResMed: 6件 (全落入外修判定)</span>
-                            <span style="font-size:11px; padding:4px 8px; border-radius:4px; background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; font-weight:700;">Philips: 2件 (全廠內自修)</span>
-                            <span style="font-size:11px; padding:4px 8px; border-radius:4px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-weight:700;">Other: 4件</span>
+                        <!-- 難度與品牌拆解標籤 -->
+                        <div style="display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap;">
+                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-weight:700;">一般維修: 6件</span>
+                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; font-weight:700;">外修判定: 9件</span>
+                        </div>
+                        <div style="display: flex; gap: 6px; margin-top: 2px; flex-wrap: wrap;">
+                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#ffedd5; color:#c2410c; border:1px solid #fdba74; font-weight:700;">ResMed: 7件 (落入外修)</span>
+                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; font-weight:700;">Philips: 1件 (廠內自修)</span>
+                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#f3f4f6; color:#475569; border:1px solid #e2e8f0; font-weight:700;">Other: 7件</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 洞察二：管理聲明與保固分析 -->
+                <!-- 洞察二：管理聲明與 15台精銳備機 -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> 100% 精銳戰備池</h3>
+                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> SLA 強制脫鉤與 100% 精銳戰備池</h3>
                     
                     <ul class="action-list" style="margin-top: 8px; margin-bottom: 12px;">
                         <li class="leveling">
-                            <span class="highlight-title">平準化戰果</span>
-                            團隊主動錯開保養排程，成功將 TAT 壓回 2.4 天極速。但 6 件逾期中高達 5 件受制於外修判定(ResMed 等)。<b></b>
+                            <span class="highlight-title">平準化大捷：2.0 天史詩級流速</span>
+                            在兼顧 80 件巨量保養的高壓下，團隊成功將維修 TAT 壓縮至 2.0 天。這證明現有編制只要落實「排程錯開」，產能即可極大化。
                         </li>
-                        <li class="critical">
-                            <span class="highlight-title">氧氣機妥善率 75% 警示</span>
-                            氧氣產線健康度亮起黃燈。已嚴格汰除舊機與特規穩壓器，整理出 13 台精銳備機隨時調度，做為業務出貨的最強後盾。
+                        <li class="policy">
+                            <span class="highlight-title">外修防護與 SLA 脫鉤要求</span>
+                            9 件逾期 100% 肇因為外廠判定拖延。<b>外部行政不可控，必須與工程部效率考核脫鉤。</b>工程部已汰除舊機，整備出 15 台精銳備機池做為客訴防護網。
                         </li>
                     </ul>
 
-                    <!-- 資源池清單 (13台) -->
+                    <!-- 資源池清單 (15台) -->
                     <div style="border-top: 1px dashed var(--border-light); padding-top: 12px; margin-top: auto;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 12px; color: var(--brand-primary); font-weight: 700;">主力支援戰備池 (100% 隨時可出庫)</span>
-                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">共 <span style="color: var(--brand-accent); font-size: 13px;">13</span> 台就緒</span>
+                            <span style="font-size: 12px; color: var(--brand-primary); font-weight: 700;">主力支援戰備池 (100% 隨時出庫)</span>
+                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">共 <span style="color: var(--brand-accent); font-size: 13px;">15</span> 台就緒</span>
                         </div>
                         <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                            <span class="spare-chip">Trilogy 100 <span class="qty">3</span></span>
                             <span class="spare-chip">DS BiPAP ST30 <span class="qty">3</span></span>
                             <span class="spare-chip">Lumis 150 <span class="qty">2</span></span>
-                            <span class="spare-chip">Trilogy 100 <span class="qty">1</span></span>
                             <span class="spare-chip">EverFlo 氧氣機 <span class="qty">4</span></span>
                             <span class="spare-chip">8L 氧氣機 <span class="qty">2</span></span>
                             <span class="spare-chip">怡氧製氧機 <span class="qty">1</span></span>
@@ -613,14 +618,14 @@
 
             </div>
             
-            <!-- 四大業務板塊 UI -->
+            <!-- 四大業務板塊 UI (Updated with V5.9.0 Data) -->
             <div class="insight-card" style="padding: 16px; background: #0f172a; border-color: #1e293b;">
                 <div class="segments-header">
                     <div class="segments-title" style="color: white;">
-                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 本期業務板塊分析 (總產能消耗 137.5 pt)
+                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 三月全期業務板塊分析 (總產能消耗 219.5 pt)
                     </div>
                     <div class="segments-insight">
-                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：平準化發威！維修佔比達 40.2%，TAT 卻降至 2.4 天，產能調度最佳化！
+                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：狂飆的 2.0天極速！在保養案量高達 60% 的夾擊下，維修流速依然創下年度最佳紀錄！
                     </div>
                 </div>
                 
@@ -633,11 +638,11 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">33 件 (40.2%)</span>
+                            <span class="seg-val primary">46 件 (34.6%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">53.0 pt</span>
+                            <span class="seg-val">89.0 pt</span>
                         </div>
                     </div>
 
@@ -649,11 +654,11 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">43 件 (52.4%)</span>
+                            <span class="seg-val primary">80 件 (60.2%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">76.0 pt</span>
+                            <span class="seg-val">121.0 pt</span>
                         </div>
                     </div>
 
@@ -665,7 +670,7 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">2 件 (2.4%)</span>
+                            <span class="seg-val primary">2 件 (1.5%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
@@ -681,11 +686,11 @@
                         </div>
                         <div class="seg-card-row">
                             <span>案量佔比</span>
-                            <span class="seg-val primary">4 件 (4.9%)</span>
+                            <span class="seg-val primary">5 件 (3.8%)</span>
                         </div>
                         <div class="seg-card-row">
                             <span>貢獻工時點數</span>
-                            <span class="seg-val">4.0 pt</span>
+                            <span class="seg-val">5.0 pt</span>
                         </div>
                     </div>
                 </div>
