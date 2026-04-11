@@ -11,7 +11,7 @@
     <style>
         :root {
             /* Premium Corporate Dashboard Palette */
-            --bg-body: #f1f5f9;
+            --bg-body: #e2e8f0;
             --bg-card: #ffffff;
             --text-main: #0f172a;
             --text-muted: #475569;
@@ -33,33 +33,34 @@
 
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.15);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* 強制滿版且不出現卷軸的一頁式設定 */
         body {
-            background-color: #cbd5e1;
+            background-color: var(--bg-body);
             font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
+            padding: 16px;
         }
 
-        /* 16:9 Presentation Canvas - RWD 彈性 */
+        /* 16:9 駕駛艙畫布 (極致壓縮版) */
         .slide-canvas {
             width: 100%;
-            max-width: 1280px;
-            min-height: 720px;
-            background: var(--bg-body);
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            max-width: 1366px;
+            height: 100%;
+            max-height: 860px;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-md);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
-            padding: 32px 40px;
+            padding: 20px 28px; /* 縮小 Padding */
             position: relative;
         }
 
@@ -67,7 +68,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 6px;
+            height: 5px;
             background: linear-gradient(90deg, var(--brand-accent), var(--status-purple));
         }
 
@@ -76,87 +77,79 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 16px; /* 縮小 Margin */
+            flex-shrink: 0;
         }
 
         .header-left h1 {
-            font-size: 32px;
+            font-size: 26px; /* 縮小字體 */
             font-weight: 900;
             color: var(--text-main);
-            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .badge-proactive {
             background: linear-gradient(135deg, var(--status-success), #34d399);
             color: white;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: var(--shadow-sm);
-            white-space: nowrap;
         }
 
         .header-left p {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-top: 6px;
+            margin-top: 4px;
             font-weight: 500;
         }
 
         .header-right {
             text-align: right;
-            background: var(--bg-card);
-            padding: 10px 20px;
+            background: #f8fafc;
+            padding: 8px 16px;
             border-radius: 8px;
-            box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-light);
-            flex-shrink: 0;
         }
 
         .header-right .metric {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 900;
             color: var(--brand-primary);
             font-family: 'DM Sans', sans-serif;
         }
 
         .header-right .sub-metric {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         /* Global Layout Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 24px;
+            grid-template-columns: 280px 1fr; /* 左欄稍微縮小 */
+            gap: 16px; /* 縮小 Gap */
             flex-grow: 1;
+            min-height: 0; /* 允許內部內容壓縮 */
         }
 
         /* ---------------- 左側：核心 KPI 直列 ---------------- */
         .kpi-column {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px; /* 縮小 Gap */
         }
 
         .kpi-card {
             background: var(--bg-card);
-            border-radius: 10px;
-            padding: 16px;
-            box-shadow: var(--shadow-md);
+            border-radius: 8px;
+            padding: 12px 14px; /* 縮小 Padding */
             border: 1px solid var(--border-light);
             position: relative;
-            overflow: hidden;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -171,316 +164,150 @@
         }
 
         .kpi-card.success::before { background: var(--status-success); }
-        .kpi-card.warning::before { background: var(--status-warning); }
         .kpi-card.danger::before { background: var(--status-danger); }
         .kpi-card.info::before { background: var(--status-info); }
+        .kpi-card.purple::before { background: var(--status-purple); }
 
         .kpi-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .kpi-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .kpi-icon {
-            width: 28px; height: 28px;
-            border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 14px;
-        }
+        .kpi-title { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .kpi-icon { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
         
         .kpi-card.success .kpi-icon { background: var(--status-success-bg); color: var(--status-success); }
-        .kpi-card.warning .kpi-icon { background: var(--status-warning-bg); color: var(--status-warning); }
         .kpi-card.danger .kpi-icon { background: var(--status-danger-bg); color: var(--status-danger); }
         .kpi-card.info .kpi-icon { background: var(--status-info-bg); color: var(--status-info); }
+        .kpi-card.purple .kpi-icon { background: var(--status-purple-bg); color: var(--status-purple); }
 
         .kpi-value {
-            font-size: 32px;
+            font-size: 26px; /* 縮小數值字體 */
             font-weight: 900;
             color: var(--text-main);
             font-family: 'DM Sans', sans-serif;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
+            margin-bottom: 2px;
+            display: flex; align-items: baseline; gap: 4px;
         }
 
-        .kpi-value span { font-size: 14px; font-weight: 700; color: var(--text-muted); }
+        .kpi-value span { font-size: 12px; font-weight: 700; color: var(--text-muted); }
         .kpi-card.danger .kpi-value { color: var(--status-danger); }
-        .kpi-card.warning .kpi-value { color: var(--status-warning); }
-
-        .kpi-desc {
-            font-size: 12px;
-            line-height: 1.5;
-            color: var(--text-muted);
-        }
-
+        
+        .kpi-desc { font-size: 11px; line-height: 1.4; color: var(--text-muted); }
         .kpi-desc strong { color: var(--text-main); }
 
         /* ---------------- 右側：戰略洞察與行動矩陣 ---------------- */
         .strategy-column {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px; /* 縮小 Gap */
+            min-height: 0;
         }
 
         .section-header {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--brand-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; align-items: center; gap: 8px;
             border-bottom: 2px solid var(--border-light);
-            padding-bottom: 8px;
+            padding-bottom: 6px;
+            flex-shrink: 0;
         }
 
         .strategy-content-grid {
             display: grid;
-            grid-template-columns: 1fr 1.1fr; 
-            gap: 20px;
+            grid-template-columns: 1fr 1.15fr; 
+            gap: 16px;
+            flex-grow: 1;
+            min-height: 0;
         }
 
         /* 卡片共用樣式 */
         .insight-card {
             background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow-md);
+            border-radius: 10px;
+            padding: 14px; /* 縮小 Padding */
             border: 1px solid var(--border-light);
             display: flex;
             flex-direction: column;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        /* 保養海嘯進度條 UX 設計 */
+        /* 保養進度條 UX 設計 */
         .backlog-container {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 12px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .backlog-item h4 {
-            font-size: 13px;
-            color: var(--brand-primary);
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .pg-bar-bg {
-            background: #e2e8f0;
-            height: 12px;
             border-radius: 6px;
-            overflow: hidden;
-            position: relative;
+            padding: 12px; /* 縮小 Padding */
+            margin-top: 8px;
+            border: 1px solid var(--border-light);
+            display: flex; flex-direction: column; gap: 12px;
         }
 
-        .pg-bar-fill {
-            height: 100%;
-            background: var(--brand-accent);
-            border-radius: 6px;
-            transition: width 0.5s ease;
-        }
+        .backlog-item h4 { font-size: 12px; color: var(--brand-primary); margin-bottom: 6px; display: flex; justify-content: space-between; }
         
+        .pg-bar-bg { height: 10px; border-radius: 5px; background: #e2e8f0; overflow: hidden; }
+        .pg-bar-fill { height: 100%; border-radius: 5px; transition: width 0.5s ease; }
         .pg-bar-fill.success { background: var(--status-success); }
-        .pg-bar-fill.danger { background: var(--status-danger); }
+        .pg-bar-fill.info { background: var(--status-info); }
 
-        .backlog-stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        .stat-success { color: var(--status-success); font-weight: 900; font-size: 14px; }
-        .stat-info { color: var(--status-info); font-weight: 900; font-size: 14px; }
+        .backlog-stats { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+        .stat-success { color: var(--status-success); font-weight: 900; }
+        .stat-info { color: var(--status-info); font-weight: 900; }
 
         /* 行動清單 UI */
-        .action-list {
-            list-style: none;
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
+        .action-list { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 8px; }
         .action-list li {
-            position: relative;
-            padding-left: 28px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-muted);
-            background: #f8fafc;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            padding-right: 12px;
-            border-radius: 6px;
-            border-left: 3px solid var(--text-muted);
+            position: relative; padding-left: 24px; font-size: 12px; line-height: 1.5; color: var(--text-muted);
+            background: #f8fafc; padding-top: 8px; padding-bottom: 8px; padding-right: 10px;
+            border-radius: 6px; border-left: 3px solid var(--text-muted);
         }
-
-        .action-list li.policy { border-left-color: var(--status-purple); background: white; border: 1px solid #e9d5ff; border-left: 4px solid var(--status-purple);}
-        .action-list li.leveling { border-left-color: var(--status-success); background: white; border: 1px solid #a7f3d0; border-left: 4px solid var(--status-success);}
-        .action-list li.critical { border-left-color: var(--status-warning); background: white; border: 1px solid #fde047; border-left: 4px solid var(--status-warning);}
+        .action-list li.policy { border-left-color: var(--status-purple); border: 1px solid #e9d5ff; border-left: 4px solid var(--status-purple); background: white;}
+        .action-list li.leveling { border-left-color: var(--status-success); border: 1px solid #a7f3d0; border-left: 4px solid var(--status-success); background: white;}
 
         .action-list li::before {
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 10px;
-            top: 12px;
-            font-size: 12px;
+            font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 8px; top: 9px; font-size: 10px;
         }
-
         .action-list li.policy::before { content: '\f0e3'; color: var(--status-purple); }
         .action-list li.leveling::before { content: '\f0ce'; color: var(--status-success); }
-        .action-list li.critical::before { content: '\f071'; color: var(--status-warning); }
 
-        .highlight-title {
-            font-weight: 900;
-            color: var(--text-main);
-            display: block;
-            margin-bottom: 2px;
-        }
+        .highlight-title { font-weight: 900; color: var(--text-main); display: block; margin-bottom: 2px; }
 
         /* 資源標籤 (Spare Chips) UI */
         .spare-chip {
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 3px 8px 3px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #334155;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-            margin-bottom: 6px;
+            background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 6px 2px 8px;
+            border-radius: 10px; font-size: 10px; font-weight: 700; color: #334155;
+            display: inline-flex; align-items: center; gap: 4px;
         }
-
         .spare-chip .qty {
-            background: var(--brand-accent);
-            color: white;
-            font-weight: 900;
-            font-family: 'DM Sans', sans-serif;
-            padding: 1px 6px;
-            border-radius: 8px;
-            font-size: 11px;
+            background: var(--brand-accent); color: white; font-weight: 900;
+            font-family: 'DM Sans', sans-serif; padding: 1px 5px; border-radius: 6px; font-size: 10px;
         }
 
         /* 四大業務板塊 UI */
-        .segments-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .segments-title {
-            font-size: 15px;
-            font-weight: 900;
-            color: var(--brand-primary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
+        .segments-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .segments-title { font-size: 14px; font-weight: 900; color: var(--brand-primary); display: flex; align-items: center; gap: 6px; }
         .segments-insight {
-            font-size: 12px;
-            color: white;
-            font-weight: 700;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid #334155;
+            font-size: 11px; color: white; font-weight: 700; background: rgba(255,255,255,0.1);
+            padding: 3px 8px; border-radius: 4px; border: 1px solid #334155;
         }
 
-        .segment-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
+        .segment-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .seg-card {
-            background: #111827; 
-            border-radius: 10px;
-            padding: 16px;
-            border: 1px solid #334155;
-            color: white;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+            background: #111827; border-radius: 8px; padding: 12px;
+            border: 1px solid #334155; color: white; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
         }
-
-        .seg-card-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 900;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 8px;
-        }
-
-        .seg-card-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            margin-bottom: 10px;
-            color: #94a3b8;
-        }
-        
+        .seg-card-header { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 900; margin-bottom: 10px; border-bottom: 1px solid #334155; padding-bottom: 6px; }
+        .seg-card-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; margin-bottom: 6px; color: #94a3b8; }
         .seg-card-row:last-child { margin-bottom: 0; }
+        .seg-val { font-weight: 900; font-family: 'DM Sans', sans-serif; font-size: 13px; }
 
-        .seg-val {
-            font-weight: 900;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-        }
+        .seg-repair .seg-card-header i, .seg-repair .seg-val.primary { color: #f87171; }
+        .seg-pm .seg-card-header i, .seg-pm .seg-val.primary { color: #60a5fa; }
+        .seg-install .seg-card-header i, .seg-install .seg-val.primary { color: #fbbf24; }
+        .seg-internal .seg-card-header i, .seg-internal .seg-val.primary { color: #a8a29e; }
 
-        /* Dynamic colors for segments */
-        .seg-repair .seg-card-header i { color: #f87171; }
-        .seg-repair .seg-val.primary { color: #f87171; }
-
-        .seg-pm .seg-card-header i { color: #60a5fa; }
-        .seg-pm .seg-val.primary { color: #4ade80; }
-
-        .seg-install .seg-card-header i { color: #fbbf24; }
-        .seg-install .seg-val.primary { color: #fbbf24; }
-
-        .seg-internal .seg-card-header i { color: #a8a29e; }
-        .seg-internal .seg-val.primary { color: #a8a29e; }
-
-        /* ================= RWD 響應式佈局設定 ================= */
-        @media (max-width: 1024px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .kpi-column { display: grid; grid-template-columns: repeat(2, 1fr); }
-            .slide-canvas { padding: 24px; }
-            .segment-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            .slide-canvas { padding: 16px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .header-right { width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
-            .kpi-column { grid-template-columns: 1fr; }
-            .strategy-content-grid { grid-template-columns: 1fr; }
-            .segment-grid { grid-template-columns: 1fr; }
-            .segments-header { flex-direction: column; align-items: flex-start; gap: 8px;}
-        }
     </style>
 </head>
 <body>
@@ -489,56 +316,56 @@
     <!-- Header -->
     <div class="header">
         <div class="header-left">
-            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-trophy"></i> 平準化全面勝仗</span></h1>
-            <p>評估週期：2026年3月(全月) | 報告人：工程部主管 | 核心命題：完美防禦底載，TAT年度極速突破</p>
+            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-calendar-check"></i> 排程穩健推進</span></h1>
+            <p>評估週期：2026-03-28 至 2026-04-10 (四月上旬) | 報告人：工程部主管 | 核心命題：保養如期推進與戰備調度</p>
         </div>
         <div class="header-right">
-            <div class="sub-metric">服務總件數</div>
-            <div class="metric">133 <span style="font-size: 14px; color: var(--text-muted); font-weight: 500;">件</span></div>
+            <div class="sub-metric">本期完修總量</div>
+            <div class="metric">51 <span style="font-size: 12px; color: var(--text-muted); font-weight: 500;">件</span></div>
         </div>
     </div>
 
     <div class="dashboard-grid">
         <!-- Left Column: 4 KPIs -->
         <div class="kpi-column">
-            <!-- 史詩級勝利：TAT 降到 2.0 -->
-            <div class="kpi-card success" style="border-left-width: 6px;">
-                <div class="kpi-header">
-                    <span class="kpi-title" style="color: var(--status-success);">內部維修效率 (淨TAT) - 年度極速</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
-                </div>
-                <div class="kpi-value">2.0<span>天</span></div>
-                <div class="kpi-desc">首次修復 100% / 返修率 0%<br><strong>平準化戰略大獲全勝，內部流速達巔峰極限</strong></div>
-            </div>
-
-            <!-- 常規保養負載完美去化 -->
+            <!-- 施工極速維持 -->
             <div class="kpi-card info">
                 <div class="kpi-header">
-                    <span class="kpi-title">常規保養進度與餘裕度</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <span class="kpi-title">內部維修效率 (淨TAT)</span>
+                    <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
                 </div>
-                <div class="kpi-value" style="font-size: 26px;">371<span>/年待辦</span> + 4<span>/月待派</span></div>
-                <div class="kpi-desc">已完 105 件醫院與 52 件居家保養<br><strong>成功去化居家待派海嘯(自38降至4件)</strong></div>
+                <div class="kpi-value">2.8<span>天</span></div>
+                <div class="kpi-desc">首次修復 100% / <b>純施工僅需 0.7天</b><br><strong>兼顧月初常規保養啟動，流速維持穩定</strong></div>
             </div>
 
-            <!-- 100% 肇因於外修的 SLA 超標 -->
+            <!-- 常規保養進度 -->
+            <div class="kpi-card success" style="background: var(--status-success-bg); border-color: #a7f3d0;">
+                <div class="kpi-header">
+                    <span class="kpi-title">四月常規保養排程進度</span>
+                    <div class="kpi-icon"><i class="fa-solid fa-people-carry-box"></i></div>
+                </div>
+                <div class="kpi-value" style="font-size: 24px;">19<span>%居家</span> / 26<span>%醫院</span></div>
+                <div class="kpi-desc">目前為月初(4/11)，進度完全符合預期<br><strong>依計畫平穩去化，無產能堆積風險</strong></div>
+            </div>
+
+            <!-- ★★★ 已校正 SLA 數據：9.8% / 5件 / 80%外修 ★★★ -->
             <div class="kpi-card danger">
                 <div class="kpi-header">
                     <span class="kpi-title">外部拖延致 SLA 逾期</span>
                     <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 </div>
-                <div class="kpi-value">6.8<span>%</span></div>
-                <div class="kpi-desc">本期共 9 件承諾超標<br><strong>100% (9件) 肇因為「外修判定」延宕，內部零缺失</strong></div>
+                <div class="kpi-value">9.8<span>%</span></div>
+                <div class="kpi-desc">本期共 5 件承諾超標<br><strong>其中高達 80% (4件) 肇因為「外修判定」延宕</strong></div>
             </div>
 
-            <!-- 氧氣機妥善率 75% 的警訊 -->
-            <div class="kpi-card warning" style="border-left-color: var(--status-warning); background: var(--status-warning-bg);">
+            <!-- 核心設備可用率 (正面戰備指標) -->
+            <div class="kpi-card purple" style="border-left-color: var(--status-purple); background: var(--status-purple-bg);">
                 <div class="kpi-header">
-                    <span class="kpi-title" style="color: #92400e;">氧氣機妥善率風險警示</span>
-                    <div class="kpi-icon" style="background: var(--status-warning); color: white;"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <span class="kpi-title" style="color: var(--brand-primary);">核心設備可用率</span>
+                    <div class="kpi-icon" style="background: var(--status-purple); color: white;"><i class="fa-solid fa-heart-pulse"></i></div>
                 </div>
-                <div class="kpi-value" style="color: #92400e;">75<span>%</span></div>
-                <div class="kpi-desc">39/52台正常 (整體設備為 92%)<br><strong>產線妥善率出現缺口，需啟動戰備調度防護</strong></div>
+                <div class="kpi-value" style="color: var(--brand-primary);">97<span>%</span></div>
+                <div class="kpi-desc">呼吸器與氧氣產線維持高標準妥善率<br><strong>常態整備 16 台精銳戰備機隨時調度</strong></div>
             </div>
         </div>
 
@@ -551,147 +378,106 @@
 
             <div class="strategy-content-grid">
                 
-                <!-- 洞察一：保固案漏斗拆解 (更新為 17件總保固) -->
+                <!-- 洞察一：四月保養進度條 -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-filter"></i> 保固案深度拆解：100% 外包致命傷</h3>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;">主動追蹤顯示，15 件真實保固故障中，有 9 件被迫送外修，且<b>這 9 件包辦了本月所有的 SLA 逾期。</b></p>
+                    <h3 style="font-size: 14px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-clipboard-list"></i> 常規排程：四月保養任務穩健推進</h3>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.5;">本月各項保養已啟動。目前正值月初，工程團隊依計畫逐步去化案量，整體排程健康，無排擠核心維修之風險。</p>
                     
-                    <div class="backlog-container" style="gap: 10px;">
+                    <div class="backlog-container">
                         <div class="backlog-item">
-                            <h4>總保固內進場件數 <span>17 件</span></h4>
-                            <div class="pg-bar-bg">
-                                <div class="pg-bar-fill warning" style="width: 100%;"></div>
+                            <h4>醫院保養年度任務 <span>(共 476 機台次)</span></h4>
+                            <div class="pg-bar-bg"><div class="pg-bar-fill success" style="width: 26%;"></div></div>
+                            <div class="backlog-stats">
+                                <span>已完: 122 (26%)</span>
+                                <span>年度待排: <span class="stat-success">354</span> 件</span>
                             </div>
                         </div>
 
                         <div class="backlog-item">
-                            <h4>真實機件故障 <span>15 件 (88.2%)</span></h4>
-                            <div class="pg-bar-bg">
-                                <div class="pg-bar-fill danger" style="width: 88%;"></div>
+                            <h4>居家保養本月任務 <span>(共 69 件需求)</span></h4>
+                            <div class="pg-bar-bg"><div class="pg-bar-fill info" style="width: 19%;"></div></div>
+                            <div class="backlog-stats">
+                                <span>已完: 13 (19%)</span>
+                                <span>本月待派: <span class="stat-info">56</span> 件</span>
                             </div>
-                        </div>
-                        
-                        <!-- 難度與品牌拆解標籤 -->
-                        <div style="display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap;">
-                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; font-weight:700;">一般維修: 6件</span>
-                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; font-weight:700;">外修判定: 9件</span>
-                        </div>
-                        <div style="display: flex; gap: 6px; margin-top: 2px; flex-wrap: wrap;">
-                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#ffedd5; color:#c2410c; border:1px solid #fdba74; font-weight:700;">ResMed: 7件 (落入外修)</span>
-                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; font-weight:700;">Philips: 1件 (廠內自修)</span>
-                            <span style="font-size:11px; padding:3px 6px; border-radius:4px; background:#f3f4f6; color:#475569; border:1px solid #e2e8f0; font-weight:700;">Other: 7件</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 洞察二：管理聲明與 15台精銳備機 -->
+                <!-- 洞察二：管理聲明與 16台精銳備機 -->
                 <div class="insight-card">
-                    <h3 style="font-size: 15px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> SLA 強制脫鉤與 100% 精銳戰備池</h3>
+                    <h3 style="font-size: 14px; color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> SLA 脫鉤與 100% 精銳戰備池</h3>
                     
-                    <ul class="action-list" style="margin-top: 8px; margin-bottom: 12px;">
-                        <li class="leveling">
-                            <span class="highlight-title">平準化大捷：2.0 天史詩級流速</span>
-                            在兼顧 80 件巨量保養的高壓下，團隊成功將維修 TAT 壓縮至 2.0 天。這證明現有編制只要落實「排程錯開」，產能即可極大化。
-                        </li>
+                    <ul class="action-list">
                         <li class="policy">
                             <span class="highlight-title">外修防護與 SLA 脫鉤要求</span>
-                            9 件逾期 100% 肇因為外廠判定拖延。<b>外部行政不可控，必須與工程部效率考核脫鉤。</b>工程部已汰除舊機，整備出 15 台精銳備機池做為客訴防護網。
+                            5 件逾期中高達 4 件為外修延宕。<b>外部行政不可控，必須與內部效率考核脫鉤。</b>我們將專注於 0.7 天的極速施工戰力。
+                        </li>
+                        <li class="leveling">
+                            <span class="highlight-title">主動式戰備調度防護網</span>
+                            工程部已執行最嚴格之特規與舊機汰除，常態整備出 16 台純精銳備機，作為業務端緊急出貨與客訴防護的最強後盾。
                         </li>
                     </ul>
 
-                    <!-- 資源池清單 (15台) -->
-                    <div style="border-top: 1px dashed var(--border-light); padding-top: 12px; margin-top: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                            <span style="font-size: 12px; color: var(--brand-primary); font-weight: 700;">主力支援戰備池 (100% 隨時出庫)</span>
-                            <span style="font-size: 11px; color: var(--text-muted); font-weight: 700;">共 <span style="color: var(--brand-accent); font-size: 13px;">15</span> 台就緒</span>
+                    <!-- 資源池清單 (16台) -->
+                    <div style="border-top: 1px dashed var(--border-light); padding-top: 10px; margin-top: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 11px; color: var(--brand-primary); font-weight: 700;">主力戰備池 (隨時出庫)</span>
+                            <span style="font-size: 10px; color: var(--text-muted); font-weight: 700;">共 <span style="color: var(--brand-accent); font-size: 12px;">16</span> 台</span>
                         </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                            <span class="spare-chip">Trilogy 100 <span class="qty">3</span></span>
-                            <span class="spare-chip">DS BiPAP ST30 <span class="qty">3</span></span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                            <span class="spare-chip">DS BiPAP ST30 <span class="qty">4</span></span>
+                            <span class="spare-chip">81型 製氧機 <span class="qty">3</span></span>
                             <span class="spare-chip">Lumis 150 <span class="qty">2</span></span>
-                            <span class="spare-chip">EverFlo 氧氣機 <span class="qty">4</span></span>
-                            <span class="spare-chip">8L 氧氣機 <span class="qty">2</span></span>
-                            <span class="spare-chip">怡氧製氧機 <span class="qty">1</span></span>
+                            <span class="spare-chip">Airsep 8L <span class="qty">2</span></span>
+                            <span class="spare-chip">EverFlo <span class="qty">2</span></span>
+                            <span class="spare-chip">Trilogy 100 <span class="qty">1</span></span>
+                            <span class="spare-chip">5X1 <span class="qty">1</span></span>
+                            <span class="spare-chip">87型 <span class="qty">1</span></span>
                         </div>
                     </div>
                 </div>
 
             </div>
             
-            <!-- 四大業務板塊 UI (Updated with V5.9.0 Data) -->
-            <div class="insight-card" style="padding: 16px; background: #0f172a; border-color: #1e293b;">
+            <!-- 四大業務板塊 UI -->
+            <div class="insight-card" style="padding: 14px; background: #0f172a; border-color: #1e293b;">
                 <div class="segments-header">
                     <div class="segments-title" style="color: white;">
-                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 三月全期業務板塊分析 (總產能消耗 219.5 pt)
+                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 本期業務板塊分析 (總產能消耗 77.5 pt)
                     </div>
                     <div class="segments-insight">
-                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：狂飆的 2.0天極速！在保養案量高達 60% 的夾擊下，維修流速依然創下年度最佳紀錄！
+                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察：急修佔比回升至 49%，純施工天數仍壓制在 0.7 天！
                     </div>
                 </div>
                 
                 <div class="segment-grid">
                     <!-- 維修 -->
                     <div class="seg-card seg-repair">
-                        <div class="seg-card-header">
-                            <i class="fa-solid fa-wrench"></i>
-                            <div>維修<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">故障排除與零件更換</span></div>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>案量佔比</span>
-                            <span class="seg-val primary">46 件 (34.6%)</span>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>貢獻工時點數</span>
-                            <span class="seg-val">89.0 pt</span>
-                        </div>
+                        <div class="seg-card-header"><i class="fa-solid fa-wrench"></i><div>維修</div></div>
+                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">25 件 (49.0%)</span></div>
+                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">43.0 pt</span></div>
                     </div>
 
                     <!-- 保養 -->
                     <div class="seg-card seg-pm">
-                        <div class="seg-card-header">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <div>保養<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">定期保養與合約履約</span></div>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>案量佔比</span>
-                            <span class="seg-val primary">80 件 (60.2%)</span>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>貢獻工時點數</span>
-                            <span class="seg-val">121.0 pt</span>
-                        </div>
+                        <div class="seg-card-header"><i class="fa-solid fa-shield-halved"></i><div>保養</div></div>
+                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">19 件 (37.3%)</span></div>
+                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">24.0 pt</span></div>
                     </div>
 
                     <!-- 裝機與專案 -->
                     <div class="seg-card seg-install">
-                        <div class="seg-card-header">
-                            <i class="fa-solid fa-box"></i>
-                            <div>裝機與專案<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">新機交付與專案建置</span></div>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>案量佔比</span>
-                            <span class="seg-val primary">2 件 (1.5%)</span>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>貢獻工時點數</span>
-                            <span class="seg-val">4.5 pt</span>
-                        </div>
+                        <div class="seg-card-header"><i class="fa-solid fa-box"></i><div>裝機整新</div></div>
+                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">2 件 (3.9%)</span></div>
+                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">4.0 pt</span></div>
                     </div>
 
                     <!-- 內部整備 -->
                     <div class="seg-card seg-internal">
-                        <div class="seg-card-header">
-                            <i class="fa-solid fa-clipboard-check"></i>
-                            <div>內部整備與其他<br><span style="font-size:10px; color:#94a3b8; font-weight:400;">資產整備與簡易設定</span></div>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>案量佔比</span>
-                            <span class="seg-val primary">5 件 (3.8%)</span>
-                        </div>
-                        <div class="seg-card-row">
-                            <span>貢獻工時點數</span>
-                            <span class="seg-val">5.0 pt</span>
-                        </div>
+                        <div class="seg-card-header"><i class="fa-solid fa-clipboard-check"></i><div>資產整備</div></div>
+                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">5 件 (9.8%)</span></div>
+                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">6.5 pt</span></div>
                     </div>
                 </div>
             </div>
