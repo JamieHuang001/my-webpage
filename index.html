@@ -3,490 +3,330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>工程部營運戰略報告 - 全滿版駕駛艙</title>
+    <title>工程部營運戰略總覽</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js Plugin DataLabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;900&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* 專業儀表板色調 */
-            --bg-body: #e2e8f0;
-            --bg-card: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --border-light: #e2e8f0;
-            --brand-primary: #1e293b;
-            --brand-accent: #2563eb;
-            --status-success: #10b981;
-            --status-success-bg: #ecfdf5;
-            --status-danger: #ef4444;
-            --status-danger-bg: #fef2f2;
-            --status-info: #3b82f6;
-            --status-info-bg: #eff6ff;
-            --status-purple: #8b5cf6;
-            --status-purple-bg: #f5f3ff;
-            --shadow-md: 0 1vh 2vh -0.5vh rgb(0 0 0 / 0.1);
+        html {
+            font-size: clamp(13px, 0.75vw + 0.55vh, 19px);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        /* ====== 核心滿版自適應引擎 (Fluid Full-Bleed Engine) ====== */
         body {
-            background-color: var(--bg-body);
             font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* 絕對鎖死視窗大小，隱藏所有捲動軸 */
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            padding: 1.5vh 1.5vw;
+            background-color: #f1f5f9;
+            color: #0f172a;
         }
-
-        .slide-canvas {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            background: var(--bg-card);
-            box-shadow: var(--shadow-md);
-            border-radius: 1.5vh;
-            display: flex;
-            flex-direction: column;
-            padding: 2vh 2.5vw;
-            position: relative;
+        .kpi-card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
-
-        .slide-canvas::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 0.6vh;
-            background: linear-gradient(90deg, var(--brand-accent), var(--status-purple));
-            border-radius: 1.5vh 1.5vh 0 0;
-        }
-
-        /* ====== Header ====== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5vh;
-            flex-shrink: 0;
-            padding-bottom: 1vh;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .header-left h1 {
-            font-size: clamp(16px, 3vh, 32px);
-            font-weight: 900;
-            color: var(--text-main);
-            display: flex; align-items: center; gap: 1vw;
-        }
-
-        .badge-proactive {
-            background: linear-gradient(135deg, var(--status-success), #34d399);
-            color: white;
-            padding: 0.4vh 0.8vw;
-            border-radius: 0.8vh;
-            font-size: clamp(10px, 1.5vh, 16px);
-            font-weight: 700;
-        }
-
-        .header-left p {
-            font-size: clamp(10px, 1.6vh, 18px);
-            color: var(--text-muted);
-            margin-top: 0.5vh;
-            font-weight: 500;
-        }
-
-        .header-right {
-            text-align: right;
-            background: #f8fafc;
-            padding: 1vh 1.5vw;
-            border-radius: 1vh;
-            border: 1px solid var(--border-light);
-        }
-
-        .header-right .metric {
-            font-size: clamp(20px, 3.5vh, 40px);
-            font-weight: 900;
-            color: var(--brand-primary);
-            font-family: 'DM Sans', sans-serif;
-            line-height: 1;
-        }
-
-        .header-right .sub-metric {
-            font-size: clamp(9px, 1.2vh, 14px);
-            color: var(--text-muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 0.3vh;
-        }
-
-        /* ====== Layout Grid ====== */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: minmax(220px, 22%) 1fr;
-            gap: 1.5vw;
-            flex-grow: 1;
-            min-height: 0; /* 允許內部彈性壓縮 */
-        }
-
-        /* ====== 左側：核心 KPI ====== */
-        .kpi-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5vh;
-            min-height: 0;
-        }
-
-        .kpi-card {
-            background: var(--bg-card);
-            border-radius: 1vh;
-            padding: 1.2vh 1.2vw;
-            border: 1px solid var(--border-light);
-            position: relative;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 0.5vw;
-            max-width: 6px;
-        }
-
-        .kpi-card.success::before { background: var(--status-success); }
-        .kpi-card.danger::before { background: var(--status-danger); }
-        .kpi-card.info::before { background: var(--status-info); }
-        .kpi-card.purple::before { background: var(--status-purple); }
-
-        .kpi-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8vh;
-        }
-
-        .kpi-title { font-size: clamp(10px, 1.5vh, 16px); font-weight: 700; color: var(--text-muted); }
-        .kpi-icon { 
-            width: clamp(20px, 3vh, 32px); 
-            height: clamp(20px, 3vh, 32px); 
-            border-radius: 0.8vh; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: clamp(10px, 1.6vh, 18px); 
-        }
-        
-        .kpi-card.success .kpi-icon { background: var(--status-success-bg); color: var(--status-success); }
-        .kpi-card.danger .kpi-icon { background: var(--status-danger-bg); color: var(--status-danger); }
-        .kpi-card.info .kpi-icon { background: var(--status-info-bg); color: var(--status-info); }
-        .kpi-card.purple .kpi-icon { background: var(--status-purple-bg); color: var(--status-purple); }
-
-        .kpi-value {
-            font-size: clamp(22px, 3.8vh, 48px);
-            font-weight: 900;
-            color: var(--text-main);
-            font-family: 'DM Sans', sans-serif;
-            margin-bottom: 0.5vh;
-            display: flex; align-items: baseline; gap: 0.5vw;
-        }
-
-        .kpi-value span { font-size: clamp(10px, 1.5vh, 18px); font-weight: 700; color: var(--text-muted); }
-        .kpi-card.danger .kpi-value { color: var(--status-danger); }
-        
-        .kpi-desc { font-size: clamp(9px, 1.3vh, 16px); line-height: 1.4; color: var(--text-muted); }
-        .kpi-desc strong { color: var(--text-main); }
-
-        /* ====== 右側：戰略洞察 ====== */
-        .strategy-column {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5vh;
-            min-height: 0;
-        }
-
-        .section-header {
-            font-size: clamp(14px, 2vh, 24px);
-            font-weight: 900;
-            color: var(--brand-primary);
-            display: flex; align-items: center; gap: 0.8vw;
-            border-bottom: 2px solid var(--border-light);
-            padding-bottom: 0.8vh;
-            flex-shrink: 0;
-        }
-
-        .strategy-content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.15fr; 
-            gap: 1.5vw;
-            flex-grow: 1;
-            min-height: 0;
-        }
-
-        .insight-card {
-            background: var(--bg-card);
-            border-radius: 1.2vh;
-            padding: 1.5vh 1.5vw;
-            border: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0.2vh 0.5vh rgba(0,0,0,0.02);
-            overflow: hidden;
-        }
-
-        /* 保養進度條 */
-        .backlog-container {
-            background: #f8fafc;
-            border-radius: 1vh;
-            padding: 1.2vh 1vw;
-            margin-top: 1vh;
-            border: 1px solid var(--border-light);
-            display: flex; flex-direction: column; gap: 1.2vh;
-            flex-grow: 1; justify-content: center;
-        }
-
-        .backlog-item h4 { font-size: clamp(10px, 1.5vh, 16px); color: var(--brand-primary); margin-bottom: 0.5vh; display: flex; justify-content: space-between; }
-        
-        .pg-bar-bg { height: 1.2vh; border-radius: 0.6vh; background: #e2e8f0; overflow: hidden; }
-        .pg-bar-fill { height: 100%; border-radius: 0.6vh; transition: width 0.5s ease; }
-        .pg-bar-fill.success { background: var(--status-success); }
-        .pg-bar-fill.info { background: var(--status-info); }
-
-        .backlog-stats { display: flex; justify-content: space-between; font-size: clamp(9px, 1.3vh, 14px); color: var(--text-muted); margin-top: 0.5vh; font-weight: 500; }
-        .stat-success { color: var(--status-success); font-weight: 900; }
-        .stat-info { color: var(--status-info); font-weight: 900; }
-
-        /* 行動清單 */
-        .action-list { list-style: none; margin-top: 1vh; display: flex; flex-direction: column; gap: 1vh; }
-        .action-list li {
-            position: relative; padding-left: 2vw; font-size: clamp(10px, 1.4vh, 16px); line-height: 1.5; color: var(--text-muted);
-            background: #f8fafc; padding-top: 1vh; padding-bottom: 1vh; padding-right: 1vw;
-            border-radius: 0.8vh; border-left: 0.3vw solid var(--text-muted);
-        }
-        .action-list li.policy { border-left-color: var(--status-purple); border: 1px solid #e9d5ff; border-left-width: 0.4vw; background: white;}
-        .action-list li.leveling { border-left-color: var(--status-success); border: 1px solid #a7f3d0; border-left-width: 0.4vw; background: white;}
-        
-        .action-list li::before {
-            font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0.6vw; top: 1.2vh; font-size: clamp(8px, 1.2vh, 14px);
-        }
-        .action-list li.policy::before { content: '\f0e3'; color: var(--status-purple); }
-        .action-list li.leveling::before { content: '\f0ce'; color: var(--status-success); }
-
-        .highlight-title { font-weight: 900; color: var(--text-main); display: block; margin-bottom: 0.3vh; }
-
-        /* 資源標籤 */
-        .spare-chip {
-            background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.3vh 0.6vw;
-            border-radius: 1.5vh; font-size: clamp(9px, 1.2vh, 14px); font-weight: 700; color: #334155;
-            display: inline-flex; align-items: center; gap: 0.4vw; margin-bottom: 0.5vh;
-        }
-        .spare-chip .qty {
-            background: var(--brand-accent); color: white; font-weight: 900;
-            font-family: 'DM Sans', sans-serif; padding: 0.1vh 0.5vw; border-radius: 0.6vh; font-size: clamp(9px, 1.2vh, 14px);
-        }
-
-        /* 四大業務板塊 */
-        .segments-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2vh; }
-        .segments-title { font-size: clamp(12px, 1.8vh, 20px); font-weight: 900; color: var(--brand-primary); display: flex; align-items: center; gap: 0.6vw; }
-        .segments-insight {
-            font-size: clamp(9px, 1.3vh, 16px); color: white; font-weight: 700; background: rgba(255,255,255,0.1);
-            padding: 0.4vh 0.8vw; border-radius: 0.6vh; border: 1px solid #334155;
-        }
-
-        .segment-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1vw; flex-grow: 1;}
-        .seg-card {
-            background: #0f172a; border-radius: 1vh; padding: 1.2vh 1vw;
-            border: 1px solid #334155; color: white; box-shadow: inset 0 0.2vh 1vh rgba(0,0,0,0.2);
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        .seg-card-header { display: flex; align-items: center; gap: 0.5vw; font-size: clamp(10px, 1.5vh, 18px); font-weight: 900; margin-bottom: 1vh; border-bottom: 1px solid #334155; padding-bottom: 0.8vh; }
-        .seg-card-row { display: flex; justify-content: space-between; align-items: center; font-size: clamp(9px, 1.3vh, 16px); margin-bottom: 0.6vh; color: #94a3b8; }
-        .seg-card-row:last-child { margin-bottom: 0; }
-        .seg-val { font-weight: 900; font-family: 'DM Sans', sans-serif; font-size: clamp(11px, 1.6vh, 20px); }
-
-        .seg-repair .seg-card-header i, .seg-repair .seg-val.primary { color: #f87171; }
-        .seg-pm .seg-card-header i, .seg-pm .seg-val.primary { color: #60a5fa; }
-        .seg-install .seg-card-header i, .seg-install .seg-val.primary { color: #fbbf24; }
-        .seg-internal .seg-card-header i, .seg-internal .seg-val.primary { color: #a8a29e; }
-
+        /* 自適應動態字體與尺寸 */
+        .fluid-title { font-size: clamp(1.2rem, 1.8vw, 2.2rem); }
+        .fluid-subtitle { font-size: clamp(0.85rem, 1.1vw, 1.2rem); }
+        .fluid-kpi-num { font-size: clamp(2.2rem, 3.5vw, 4.2rem); line-height: 1; }
+        .fluid-card-title { font-size: clamp(0.95rem, 1.2vw, 1.35rem); }
+        .fluid-body-text { font-size: clamp(0.85rem, 1.1vw, 1.25rem); line-height: 1.4; }
+        .fluid-badge-text { font-size: clamp(0.78rem, 0.95vw, 1.05rem); }
     </style>
 </head>
-<body>
+<body class="p-3 lg:p-4 h-screen overflow-hidden flex flex-col justify-between select-none">
 
-<div class="slide-canvas">
-    <!-- Header -->
-    <div class="header">
-        <div class="header-left">
-            <h1>工程部 營運戰略與主動管理報告 <span class="badge-proactive"><i class="fa-solid fa-bolt"></i> 居家保養強勢達標</span></h1>
-            <p>評估週期:2026-07-01至2026-07-17(七月中旬) | 報告人:工程部主管 | 核心命題:保養排程優化與極速推進</p>
+<div class="max-w-[1920px] w-full mx-auto h-full flex flex-col justify-between gap-2.5 lg:gap-3">
+
+    <!-- Header: High Contrast with Corrected Core Proposition -->
+    <header class="flex justify-between items-center pb-2 border-b-2 border-slate-300 flex-shrink-0">
+        <div>
+            <div class="flex items-center gap-3">
+                <h1 class="fluid-title font-black text-slate-900 tracking-tight">工程部 營運戰略總覽</h1>
+                <span class="px-3.5 py-1 bg-emerald-100 text-emerald-900 fluid-badge-text font-black rounded-full border border-emerald-400 shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i> 居家居護保養 76% 高速收尾
+                </span>
+            </div>
+            <p class="text-slate-700 font-bold fluid-subtitle mt-1">
+                評估週期: 2026-07-01 至 2026-07-24 | 核心命題: 居護所合約設備高效保養，全力支援維修與租機後勤
+            </p>
         </div>
-        <div class="header-right">
-            <div class="sub-metric">本期完修總量(含保養裝機)</div>
-            <div class="metric">89 <span style="font-size: clamp(10px, 1.6vh, 20px); color: var(--text-muted); font-weight: 500;">件</span> <span style="font-size: clamp(10px, 1.6vh, 16px); color: var(--status-success); font-weight: 700;">(穩健成長)</span></div>
-        </div>
-    </div>
-
-    <div class="dashboard-grid">
-        <!-- Left Column: 4 KPIs -->
-        <div class="kpi-column">
-            <!-- 施工效率 -->
-            <div class="kpi-card info">
-                <div class="kpi-header">
-                    <span class="kpi-title">內部維修效率(淨TAT)</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
-                </div>
-                <div class="kpi-value">1.3<span>天</span></div>
-                <div class="kpi-desc">首次修復 100% / <b>即日完修率極高</b><br><strong>案量增長下，施工速度維持高水準</strong></div>
+        
+        <!-- Header Total Counter -->
+        <div class="bg-slate-900 text-white px-5 py-1.5 lg:px-6 lg:py-2 rounded-2xl shadow-lg border border-slate-700 flex items-center gap-4">
+            <div>
+                <div class="fluid-badge-text font-bold text-slate-300 uppercase tracking-wider">本期總完修量</div>
+                <div class="fluid-kpi-num font-black text-blue-400 font-mono mt-0.5">108 <span class="fluid-subtitle font-bold text-slate-300">件</span></div>
             </div>
-
-            <!-- 保養進度 -->
-            <div class="kpi-card success" style="background: var(--status-success-bg); border-color: #a7f3d0;">
-                <div class="kpi-header">
-                    <span class="kpi-title">七月常規保養進度</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-people-carry-box"></i></div>
+            <div class="pl-4 border-l border-slate-700 text-left">
+                <div class="fluid-card-title text-emerald-400 font-black flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-up"></i> +19 件
                 </div>
-                <div class="kpi-value">59<span>%居家</span> / 56<span>%醫院</span></div>
-                <div class="kpi-desc">居家保養兩週內狂飆破半<br><strong>已完 48件，有效減輕月底壓力</strong></div>
-            </div>
-
-            <!-- SLA 數據 -->
-            <div class="kpi-card danger">
-                <div class="kpi-header">
-                    <span class="kpi-title">SLA 逾期率</span>
-                    <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                </div>
-                <div class="kpi-value">2.2<span>%</span></div>
-                <div class="kpi-desc">本期僅2件承諾超標<br><strong>且 100%(2件) 皆為外修判定拖延</strong></div>
-            </div>
-
-            <!-- 核心設備可用率 -->
-            <div class="kpi-card purple" style="border-left-color: var(--status-purple); background: var(--status-purple-bg);">
-                <div class="kpi-header">
-                    <span class="kpi-title" style="color: var(--brand-primary);">核心設備可用率</span>
-                    <div class="kpi-icon" style="background: var(--status-purple); color: white;"><i class="fa-solid fa-heart-pulse"></i></div>
-                </div>
-                <div class="kpi-value" style="color: var(--brand-primary);">97<span>%</span></div>
-                <div class="kpi-desc">良品數達 146 / 納管總數 151<br><strong>常態整備 14 台黃金戰備機隨時調度</strong></div>
+                <div class="fluid-badge-text text-slate-300 font-semibold">較上次結算</div>
             </div>
         </div>
+    </header>
 
-        <!-- Right Column: Insights -->
-        <div class="strategy-column">
+    <!-- Main Content Grid -->
+    <main class="grid grid-cols-12 gap-3 lg:gap-4 flex-grow min-h-0">
+        
+        <!-- Left KPIs Column (3 cols) -->
+        <div class="col-span-3 flex flex-col gap-2.5 lg:gap-3 min-h-0">
             
-            <div class="section-header">
-                <i class="fa-solid fa-microscope"></i> 深度洞察與跨部門防線戰略
+            <!-- KPI 1: 居護機構設備保養 (Replaced 閉環關懷) -->
+            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-blue-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="fluid-card-title font-black text-blue-700 uppercase tracking-wide">居護機構保養達成率</span>
+                    <i class="fa-solid fa-user-nurse text-blue-600 fluid-card-title"></i>
+                </div>
+                <div class="my-1">
+                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">76%</div>
+                    <div class="w-full bg-slate-200 h-3 lg:h-3.5 rounded-full overflow-hidden mt-2 border border-slate-300">
+                        <div class="bg-blue-600 h-full rounded-full" style="width: 76%"></div>
+                    </div>
+                </div>
+                <div class="fluid-body-text text-slate-800 font-bold leading-snug">
+                    <span>已完成: <strong class="text-slate-900 fluid-card-title font-black">63 件</strong> / 目標 83 件</span>
+                    <p class="text-blue-800 font-black mt-1 flex items-center gap-1">
+                        <i class="fa-solid fa-file-contract text-blue-600"></i>居護所合約設備定期巡檢履約
+                    </p>
+                </div>
             </div>
 
-            <div class="strategy-content-grid">
-                
-                <!-- 洞察一：保養進度 -->
-                <div class="insight-card">
-                    <h3 style="font-size: clamp(12px, 1.8vh, 20px); color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-clipboard-list"></i> 七月居家保養閃電戰，兩週突破 50%</h3>
-                    <p style="font-size: clamp(10px, 1.3vh, 16px); color: var(--text-muted); margin-top: 0.5vh; line-height: 1.5;">團隊將月初的產能完美轉化為履約進度，居家保養已達成 59%。這代表月底有絕對餘裕來專心處理任何突發的急修與裝機任務。</p>
-                    
-                    <div class="backlog-container">
-                        <div class="backlog-item">
-                            <h4>醫院保養年度任務 <span>(進度56% - 穩健推行)</span></h4>
-                            <div class="pg-bar-bg"><div class="pg-bar-fill success" style="width: 56%;"></div></div>
-                            <div class="backlog-stats">
-                                <span>已完:285件</span>
-                                <span>年度待辦:<span class="stat-success">228</span>件</span>
-                            </div>
-                        </div>
-
-                        <div class="backlog-item">
-                            <h4>居家保養本月任務 <span>(進度59% - 強勢推進)</span></h4>
-                            <div class="pg-bar-bg"><div class="pg-bar-fill info" style="width: 59%;"></div></div>
-                            <div class="backlog-stats">
-                                <span>已完:48件</span>
-                                <span>本月待派:<span class="stat-info">33</span>件</span>
-                            </div>
-                        </div>
-                    </div>
+            <!-- KPI 2: SLA 逾期率 -->
+            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-emerald-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="fluid-card-title font-black text-emerald-700 uppercase tracking-wide">SLA 逾期率 (超標控管)</span>
+                    <i class="fa-solid fa-shield-halved text-emerald-600 fluid-card-title"></i>
                 </div>
-
-                <!-- 洞察二：管理聲明 -->
-                <div class="insight-card">
-                    <h3 style="font-size: clamp(12px, 1.8vh, 20px); color: var(--brand-primary); font-weight: 900;"><i class="fa-solid fa-shield-halved"></i> 極致維修技術與 SLA 防護網</h3>
-                    
-                    <ul class="action-list">
-                        <li class="policy">
-                            <span class="highlight-title">高階零件精準替換，展現維修技術力</span>
-                            本期透過精準替換核心零件(如 Humidifier Assy)，有效攔截高階設備(如 Alice NightOne)的故障，避免曠日廢時的整機送修，確保資產妥善率。
-                        </li>
-                        <li class="leveling">
-                            <span class="highlight-title">SLA近乎完美 2.2% 且零內失</span>
-                            在 89 件完修壓力下，SLA 逾期僅 2 件，且全為外廠判定拖延。內部修復時效 100% 達標，並整備 14台妥善備機在庫待命。
-                        </li>
-                    </ul>
-
-                    <!-- 資源池清單 (14台戰備) -->
-                    <div style="border-top: 1px dashed var(--border-light); padding-top: 1.2vh; margin-top: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8vh;">
-                            <span style="font-size: clamp(10px, 1.4vh, 16px); color: var(--brand-primary); font-weight: 700;">主力戰備池(共14台)</span>
-                        </div>
-                        <div style="display: flex; flex-wrap: wrap; gap: 0.5vw;">
-                            <span class="spare-chip">EverFlo <span class="qty">5</span></span>
-                            <span class="spare-chip">Trilogy 100 <span class="qty">5</span></span>
-                            <span class="spare-chip">Lumis 150 <span class="qty">2</span></span>
-                            <span class="spare-chip">Trilogy EVO <span class="qty">1</span></span>
-                            <span class="spare-chip">Astral 100 <span class="qty">1</span></span>
-                        </div>
-                    </div>
+                <div class="my-1">
+                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">3.7%</div>
+                    <p class="fluid-body-text text-slate-700 font-bold mt-1">總案量 108 件中僅 4 件超標</p>
                 </div>
-
+                <div class="fluid-body-text text-slate-900 bg-emerald-100/90 p-2 lg:p-2.5 rounded-lg border border-emerald-300 font-bold">
+                    <i class="fa-solid fa-circle-info text-emerald-700 mr-1"></i><strong>3 件 (75%)</strong> 為原廠判定延宕，內部品質零失誤
+                </div>
             </div>
-            
-            <!-- 四大業務板塊 UI -->
-            <div class="insight-card" style="padding: 1.5vh 1.5vw; background: #0f172a; border-color: #1e293b;">
-                <div class="segments-header">
-                    <div class="segments-title" style="color: white;">
-                        <i class="fa-solid fa-thumbtack" style="color: #f87171;"></i> 本期業務板塊分析(總產能 154.0 pt)
-                    </div>
-                    <div class="segments-insight">
-                        <i class="fa-solid fa-lightbulb"></i> 戰略洞察: 保養佔比最高 (57.3%)，且內部維修佔比達 18.0%，整體資源配置高度專注於本業核心與排程去化。
-                    </div>
+
+            <!-- KPI 3: 核心可用率 -->
+            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-purple-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="fluid-card-title font-black text-purple-700 uppercase tracking-wide">核心設備可用率</span>
+                    <i class="fa-solid fa-heart-pulse text-purple-600 fluid-card-title"></i>
                 </div>
-                
-                <div class="segment-grid">
-                    <!-- 維修 -->
-                    <div class="seg-card seg-repair">
-                        <div class="seg-card-header"><i class="fa-solid fa-wrench"></i><div>維修</div></div>
-                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">16件 (18.0%)</span></div>
-                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">29.0 pt</span></div>
-                    </div>
-
-                    <!-- 保養 -->
-                    <div class="seg-card seg-pm">
-                        <div class="seg-card-header"><i class="fa-solid fa-shield-halved"></i><div>保養</div></div>
-                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">51件 (57.3%)</span></div>
-                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">90.0 pt</span></div>
-                    </div>
-
-                    <!-- 裝機與專案 -->
-                    <div class="seg-card seg-install">
-                        <div class="seg-card-header"><i class="fa-solid fa-box"></i><div>裝機專案</div></div>
-                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">11件 (12.4%)</span></div>
-                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">22.5 pt</span></div>
-                    </div>
-
-                    <!-- 內部整備 -->
-                    <div class="seg-card seg-internal">
-                        <div class="seg-card-header"><i class="fa-solid fa-clipboard-check"></i><div>內部整備</div></div>
-                        <div class="seg-card-row"><span>案量佔比</span><span class="seg-val primary">11件 (12.4%)</span></div>
-                        <div class="seg-card-row"><span>工時點數</span><span class="seg-val">12.5 pt</span></div>
-                    </div>
+                <div class="my-1">
+                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">97%</div>
+                    <p class="fluid-body-text text-slate-700 font-bold mt-1">良品 146 台 / 納管總數 151 台</p>
+                </div>
+                <div class="fluid-body-text text-purple-900 font-extrabold">
+                    高妥善率強力支援前線業務拓展
                 </div>
             </div>
 
         </div>
-    </div>
+
+        <!-- Middle & Right Charts Column (9 cols) -->
+        <div class="col-span-9 grid grid-cols-2 gap-3 lg:gap-4 min-h-0">
+            
+            <!-- Panel 1: 業務案量結構 (件數) -->
+            <div class="bg-white p-3.5 lg:p-4 rounded-xl border border-slate-300 shadow-md flex flex-col min-h-0">
+                <h3 class="fluid-card-title font-black text-slate-900 mb-2 flex items-center justify-between border-b pb-2 border-slate-200">
+                    <span><i class="fa-solid fa-chart-pie text-blue-600 mr-2"></i>四大業務板塊分佈 (件數)</span>
+                    <span class="fluid-subtitle font-bold text-slate-600">總計 108 件</span>
+                </h3>
+                <div class="flex-grow relative flex items-center justify-center min-h-0 p-1">
+                    <canvas id="businessSegmentChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Panel 2: 保養任務達成進度 (件數) -->
+            <div class="bg-white p-3.5 lg:p-4 rounded-xl border border-slate-300 shadow-md flex flex-col min-h-0">
+                <h3 class="fluid-card-title font-black text-slate-900 mb-2 flex items-center justify-between border-b pb-2 border-slate-200">
+                    <span><i class="fa-solid fa-list-check text-indigo-600 mr-2"></i>保養任務達成進度 (件數)</span>
+                    <span class="fluid-subtitle font-bold text-slate-600">單位：件</span>
+                </h3>
+                <div class="flex-grow relative flex items-center justify-center min-h-0 p-1">
+                    <canvas id="pmProgressChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bottom Banner: 主力維修備機與租機池 (Updated Quantities: 13 units) -->
+            <div class="col-span-2 bg-slate-900 text-white rounded-xl p-3.5 lg:p-4 shadow-lg flex flex-col justify-between border border-slate-700">
+                <div class="flex justify-between items-center mb-1">
+                    <div class="flex items-center gap-2.5">
+                        <i class="fa-solid fa-boxes-stacked text-amber-400 fluid-card-title"></i>
+                        <h3 class="fluid-card-title font-black text-white tracking-wide">主力精銳戰備池 (共 13 台隨時調度支援)</h3>
+                    </div>
+                    <span class="fluid-badge-text bg-slate-800 text-slate-200 px-3 py-1 rounded-full border border-slate-600 font-bold">
+                        維修借機支援與急租調度
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-4 gap-3 text-center my-1.5">
+                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
+                        <div class="fluid-subtitle text-slate-300 font-bold">EverFlo 氧氣機</div>
+                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">6 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
+                        <div class="fluid-subtitle text-slate-300 font-bold">Trilogy 100</div>
+                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">5 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
+                        <div class="fluid-subtitle text-slate-300 font-bold">Lumis 150</div>
+                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">1 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
+                        <div class="fluid-subtitle text-slate-300 font-bold">Astral 150</div>
+                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">1 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    </div>
+                </div>
+
+                <div class="fluid-body-text text-slate-300 font-bold flex items-center justify-between border-t border-slate-800 pt-1.5">
+                    <span class="flex items-center gap-1.5 text-emerald-400">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                        <span class="text-slate-200">後勤防線 100% 整備：提供前線客戶維修替換備機與緊急租賃需求</span>
+                    </span>
+                    <span class="text-slate-400 font-semibold fluid-subtitle">工程部營運管制中心</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="flex justify-between items-center fluid-subtitle font-bold text-slate-600 pt-1 border-t border-slate-300 flex-shrink-0">
+        <div>永定生物科技 - 工程部 Operations Dashboard</div>
+        <div>資料時間: 2026-07-24 18:00 結算</div>
+    </footer>
+
 </div>
+
+<!-- Chart.js Scripts with Layout Overlap Fix -->
+<script>
+    Chart.register(ChartDataLabels);
+
+    // 動態計算圖表字型大小，適應不同解析度螢幕
+    function getResponsiveFontSize(baseSize) {
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        if (vw >= 2560) return baseSize * 1.5; 
+        if (vw >= 1920) return baseSize * 1.25; 
+        return baseSize; 
+    }
+
+    const legendFontSize = getResponsiveFontSize(14);
+    const dataLabelFontSize = getResponsiveFontSize(14);
+
+    // Chart 1: Business Segment (Counts)
+    const ctxSegment = document.getElementById('businessSegmentChart').getContext('2d');
+    new Chart(ctxSegment, {
+        type: 'doughnut',
+        data: {
+            labels: ['保養 (57件)', '維修 (25件)', '裝機與專案 (15件)', '內部整備 (11件)'],
+            datasets: [{
+                data: [57, 25, 15, 11],
+                backgroundColor: ['#2563eb', '#0284c7', '#d97706', '#475569'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        font: { family: 'Noto Sans TC', size: legendFontSize, weight: '900' },
+                        color: '#0f172a',
+                        padding: 14,
+                        boxWidth: 14
+                    }
+                },
+                datalabels: {
+                    color: '#ffffff',
+                    font: { weight: '900', size: dataLabelFontSize, family: 'DM Sans' },
+                    formatter: (value) => value + '件'
+                },
+                tooltip: {
+                    titleFont: { size: legendFontSize, weight: 'bold' },
+                    bodyFont: { size: legendFontSize },
+                    callbacks: {
+                        label: function(context) {
+                            return ` ${context.label.split(' ')[0]}: ${context.raw} 件`;
+                        }
+                    }
+                }
+            },
+            cutout: '48%'
+        }
+    });
+
+    // Chart 2: PM Progress (Counts) - Fixed Text Overlap Bug
+    const ctxPM = document.getElementById('pmProgressChart').getContext('2d');
+    new Chart(ctxPM, {
+        type: 'bar',
+        data: {
+            labels: ['居家居護保養 (目標83件)', '醫院保養 (年度目標511件)'],
+            datasets: [
+                {
+                    label: '已完成 (件)',
+                    data: [63, 283],
+                    backgroundColor: '#059669',
+                    borderRadius: 6
+                },
+                {
+                    label: '待派工/未完成 (件)',
+                    data: [20, 228],
+                    backgroundColor: '#cbd5e1',
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    stacked: true,
+                    grid: { display: false },
+                    ticks: { font: { family: 'Noto Sans TC', size: legendFontSize - 1, weight: 'bold' }, color: '#334155' }
+                },
+                y: {
+                    stacked: true,
+                    grid: { display: false },
+                    ticks: { font: { family: 'Noto Sans TC', weight: '900', size: legendFontSize }, color: '#0f172a' }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { family: 'Noto Sans TC', size: legendFontSize - 1, weight: 'bold' }, color: '#0f172a', boxWidth: 14, padding: 12 }
+                },
+                datalabels: {
+                    color: (context) => context.datasetIndex === 0 ? '#ffffff' : '#0f172a',
+                    font: { weight: '900', size: dataLabelFontSize, family: 'DM Sans' },
+                    anchor: 'center',
+                    align: 'center',
+                    display: function(context) {
+                        // 避免窄長條文字擠壓重疊：若數值小於 25 且屬於待派工，自動靠右顯示或隱藏，確保 readability
+                        return context.dataset.data[context.dataIndex] > 0;
+                    },
+                    formatter: function(value, context) {
+                        if (context.datasetIndex === 1 && context.dataIndex === 0) {
+                            return '待派 ' + value + '件'; // 明確區隔
+                        }
+                        return value + '件';
+                    }
+                }
+            }
+        }
+    });
+</script>
 
 </body>
 </html>
