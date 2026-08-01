@@ -4,192 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工程部營運戰略總覽</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js Plugin DataLabels -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;900&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700;900&family=Noto+Sans+TC:wght@700;900&display=swap" rel="stylesheet">
+    
     <style>
-        html {
-            font-size: clamp(13px, 0.75vw + 0.55vh, 19px);
-        }
+        /* 基礎字體與背景設定 */
         body {
             font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             color: #0f172a;
         }
-        .kpi-card-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        
+        .kpi-card-gradient { background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%); }
+        
+        /* 自適應字體 (Fluid Typography) - 確保在各解析度下都有良好閱讀體驗 */
+        .fluid-title { font-size: clamp(1.5rem, 2vw, 2.2rem); font-weight: 900; }
+        .fluid-subtitle { font-size: clamp(0.9rem, 1.1vw, 1.2rem); font-weight: 700; color: #334155; }
+        .fluid-kpi-num { font-size: clamp(2.5rem, 4vw, 4.5rem); line-height: 1.1; font-weight: 900; letter-spacing: -1px; }
+        .fluid-card-title { font-size: clamp(1.1rem, 1.3vw, 1.4rem); font-weight: 900; }
+        .fluid-body-text { font-size: clamp(0.95rem, 1.1vw, 1.25rem); line-height: 1.5; font-weight: 700; }
+        .fluid-badge-text { font-size: clamp(0.85rem, 1vw, 1.1rem); font-weight: 900; }
+        
+        /* 卡片立體感與邊框 */
+        .high-contrast-border {
+            border: 2px solid #cbd5e1;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        /* 自適應動態字體與尺寸 */
-        .fluid-title { font-size: clamp(1.2rem, 1.8vw, 2.2rem); }
-        .fluid-subtitle { font-size: clamp(0.85rem, 1.1vw, 1.2rem); }
-        .fluid-kpi-num { font-size: clamp(2.2rem, 3.5vw, 4.2rem); line-height: 1; }
-        .fluid-card-title { font-size: clamp(0.95rem, 1.2vw, 1.35rem); }
-        .fluid-body-text { font-size: clamp(0.85rem, 1.1vw, 1.25rem); line-height: 1.4; }
-        .fluid-badge-text { font-size: clamp(0.78rem, 0.95vw, 1.05rem); }
+
+        /* 保證圖表在小螢幕不會扁掉的保護機制 */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+        }
     </style>
 </head>
-<body class="p-3 lg:p-4 h-screen overflow-hidden flex flex-col justify-between select-none">
 
-<div class="max-w-[1920px] w-full mx-auto h-full flex flex-col justify-between gap-2.5 lg:gap-3">
+<!-- 解除 overflow-hidden，改用 min-h-screen 讓版面能依據內容自由延伸 -->
+<body class="p-4 md:p-6 lg:p-8 min-h-screen flex flex-col gap-6 selection:bg-blue-200">
 
-    <!-- Header: High Contrast with Corrected Core Proposition -->
-    <header class="flex justify-between items-center pb-2 border-b-2 border-slate-300 flex-shrink-0">
+<div class="max-w-[1920px] w-full mx-auto flex flex-col gap-6 flex-grow">
+
+    <!-- Header: 在小螢幕上下排列，大螢幕左右排列 -->
+    <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b-4 border-slate-300">
         <div>
-            <div class="flex items-center gap-3">
-                <h1 class="fluid-title font-black text-slate-900 tracking-tight">工程部 營運戰略總覽</h1>
-                <span class="px-3.5 py-1 bg-emerald-100 text-emerald-900 fluid-badge-text font-black rounded-full border border-emerald-400 shadow-sm flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-check text-emerald-600"></i> 居家居護保養 76% 高速收尾
+            <div class="flex flex-wrap items-center gap-3 md:gap-4">
+                <h1 class="fluid-title text-slate-900 tracking-tight">工程部 營運戰略總覽</h1>
+                <span class="px-4 py-1.5 bg-emerald-100 text-emerald-900 fluid-badge-text rounded-full border-2 border-emerald-400 shadow-sm flex items-center gap-2 whitespace-nowrap">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i> 居家保養 100% 高速收尾
                 </span>
             </div>
-            <p class="text-slate-700 font-bold fluid-subtitle mt-1">
-                評估週期: 2026-07-01 至 2026-07-24 | 核心命題: 居護所合約設備高效保養，全力支援維修與租機後勤
+            <p class="fluid-subtitle mt-2 text-slate-600">
+                評估週期: 2026-07-01 至 2026-07-31 | 核心命題: 落實居護機構合約維護，高效支援經銷與專案放量
             </p>
         </div>
         
         <!-- Header Total Counter -->
-        <div class="bg-slate-900 text-white px-5 py-1.5 lg:px-6 lg:py-2 rounded-2xl shadow-lg border border-slate-700 flex items-center gap-4">
+        <div class="bg-slate-900 text-white px-6 py-3 md:px-8 md:py-4 rounded-2xl shadow-xl border-2 border-slate-700 flex items-center gap-4 md:gap-6 w-full lg:w-auto justify-between lg:justify-start">
             <div>
-                <div class="fluid-badge-text font-bold text-slate-300 uppercase tracking-wider">本期總完修量</div>
-                <div class="fluid-kpi-num font-black text-blue-400 font-mono mt-0.5">108 <span class="fluid-subtitle font-bold text-slate-300">件</span></div>
+                <div class="fluid-badge-text text-slate-300 uppercase tracking-wider mb-1">本月總完修量</div>
+                <div class="fluid-kpi-num text-blue-400 font-mono">167 <span class="fluid-subtitle text-slate-300">件</span></div>
             </div>
-            <div class="pl-4 border-l border-slate-700 text-left">
-                <div class="fluid-card-title text-emerald-400 font-black flex items-center gap-1">
-                    <i class="fa-solid fa-arrow-up"></i> +19 件
+            <div class="pl-4 md:pl-6 border-l-2 border-slate-700 text-left">
+                <div class="fluid-card-title text-emerald-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-up"></i> +59 件
                 </div>
-                <div class="fluid-badge-text text-slate-300 font-semibold">較上次結算</div>
+                <div class="fluid-badge-text text-slate-300 mt-1">較上次結算</div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="grid grid-cols-12 gap-3 lg:gap-4 flex-grow min-h-0">
+    <!-- Main Content Grid: 1欄 -> 12欄切分 -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
         
-        <!-- Left KPIs Column (3 cols) -->
-        <div class="col-span-3 flex flex-col gap-2.5 lg:gap-3 min-h-0">
+        <!-- Left KPIs Column (3 cols on Desktop) -->
+        <div class="lg:col-span-3 flex flex-col gap-6">
             
-            <!-- KPI 1: 居護機構設備保養 (Replaced 閉環關懷) -->
-            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-blue-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
-                <div class="flex justify-between items-center">
-                    <span class="fluid-card-title font-black text-blue-700 uppercase tracking-wide">居護機構保養達成率</span>
-                    <i class="fa-solid fa-user-nurse text-blue-600 fluid-card-title"></i>
+            <!-- KPI 1: 居家保養 100% -->
+            <div class="kpi-card-gradient p-5 rounded-2xl border-l-[14px] border-blue-600 high-contrast-border flex flex-col justify-center flex-1 min-h-[160px]">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="fluid-card-title text-blue-800 uppercase tracking-wide">居家保養達成率</span>
+                    <i class="fa-solid fa-house-medical text-blue-600 text-2xl"></i>
                 </div>
-                <div class="my-1">
-                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">76%</div>
-                    <div class="w-full bg-slate-200 h-3 lg:h-3.5 rounded-full overflow-hidden mt-2 border border-slate-300">
-                        <div class="bg-blue-600 h-full rounded-full" style="width: 76%"></div>
+                <div class="my-2">
+                    <div class="fluid-kpi-num text-slate-900 font-mono">100%</div>
+                    <div class="w-full bg-slate-200 h-4 rounded-full overflow-hidden mt-4 border border-slate-300">
+                        <div class="bg-blue-600 h-full rounded-full transition-all duration-1000" style="width: 100%"></div>
                     </div>
                 </div>
-                <div class="fluid-body-text text-slate-800 font-bold leading-snug">
-                    <span>已完成: <strong class="text-slate-900 fluid-card-title font-black">63 件</strong> / 目標 83 件</span>
-                    <p class="text-blue-800 font-black mt-1 flex items-center gap-1">
-                        <i class="fa-solid fa-file-contract text-blue-600"></i>居護所合約設備定期巡檢履約
+                <div class="fluid-body-text text-slate-800 mt-4 leading-snug">
+                    <span>已完成: <strong class="text-slate-900 fluid-card-title">79 件</strong> / 目標 79 件</span>
+                    <p class="text-emerald-700 mt-2 flex items-center gap-2 bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+                        <i class="fa-solid fa-shield-check text-emerald-600"></i>護航居護機構合約設備維護
                     </p>
                 </div>
             </div>
 
             <!-- KPI 2: SLA 逾期率 -->
-            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-emerald-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
-                <div class="flex justify-between items-center">
-                    <span class="fluid-card-title font-black text-emerald-700 uppercase tracking-wide">SLA 逾期率 (超標控管)</span>
-                    <i class="fa-solid fa-shield-halved text-emerald-600 fluid-card-title"></i>
+            <div class="kpi-card-gradient p-5 rounded-2xl border-l-[14px] border-emerald-600 high-contrast-border flex flex-col justify-center flex-1 min-h-[160px]">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="fluid-card-title text-emerald-800 uppercase tracking-wide">SLA 逾期率 (超標控管)</span>
+                    <i class="fa-solid fa-shield-halved text-emerald-600 text-2xl"></i>
                 </div>
-                <div class="my-1">
-                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">3.7%</div>
-                    <p class="fluid-body-text text-slate-700 font-bold mt-1">總案量 108 件中僅 4 件超標</p>
+                <div class="my-2">
+                    <div class="fluid-kpi-num text-slate-900 font-mono">2.4%</div>
+                    <p class="fluid-body-text text-slate-700 mt-2">總案量 167 件中僅 4 件超標</p>
                 </div>
-                <div class="fluid-body-text text-slate-900 bg-emerald-100/90 p-2 lg:p-2.5 rounded-lg border border-emerald-300 font-bold">
-                    <i class="fa-solid fa-circle-info text-emerald-700 mr-1"></i><strong>3 件 (75%)</strong> 為原廠判定延宕，內部品質零失誤
+                <div class="fluid-body-text text-slate-900 bg-emerald-100 p-3 rounded-lg border-2 border-emerald-300 mt-2">
+                    <i class="fa-solid fa-circle-info text-emerald-700 mr-2"></i><strong>3 件 (75%)</strong> 為原廠判定延宕，內部品質零失誤
                 </div>
             </div>
 
             <!-- KPI 3: 核心可用率 -->
-            <div class="kpi-card-gradient p-3.5 lg:p-4 rounded-xl border-l-[10px] border-purple-600 border border-slate-300 shadow-md flex flex-col justify-between flex-1">
-                <div class="flex justify-between items-center">
-                    <span class="fluid-card-title font-black text-purple-700 uppercase tracking-wide">核心設備可用率</span>
-                    <i class="fa-solid fa-heart-pulse text-purple-600 fluid-card-title"></i>
+            <div class="kpi-card-gradient p-5 rounded-2xl border-l-[14px] border-purple-600 high-contrast-border flex flex-col justify-center flex-1 min-h-[160px]">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="fluid-card-title text-purple-800 uppercase tracking-wide">核心設備可用率</span>
+                    <i class="fa-solid fa-heart-pulse text-purple-600 text-2xl"></i>
                 </div>
-                <div class="my-1">
-                    <div class="fluid-kpi-num font-black text-slate-900 font-mono">97%</div>
-                    <p class="fluid-body-text text-slate-700 font-bold mt-1">良品 146 台 / 納管總數 151 台</p>
+                <div class="my-2">
+                    <div class="fluid-kpi-num text-slate-900 font-mono">98%</div>
+                    <p class="fluid-body-text text-slate-700 mt-2">良品 147 台 / 納管總數 152 台</p>
                 </div>
-                <div class="fluid-body-text text-purple-900 font-extrabold">
+                <div class="fluid-body-text text-purple-900 font-bold mt-2">
                     高妥善率強力支援前線業務拓展
                 </div>
             </div>
 
         </div>
 
-        <!-- Middle & Right Charts Column (9 cols) -->
-        <div class="col-span-9 grid grid-cols-2 gap-3 lg:gap-4 min-h-0">
+        <!-- Right Charts Column (9 cols on Desktop) -->
+        <div class="lg:col-span-9 flex flex-col gap-6">
             
-            <!-- Panel 1: 業務案量結構 (件數) -->
-            <div class="bg-white p-3.5 lg:p-4 rounded-xl border border-slate-300 shadow-md flex flex-col min-h-0">
-                <h3 class="fluid-card-title font-black text-slate-900 mb-2 flex items-center justify-between border-b pb-2 border-slate-200">
-                    <span><i class="fa-solid fa-chart-pie text-blue-600 mr-2"></i>四大業務板塊分佈 (件數)</span>
-                    <span class="fluid-subtitle font-bold text-slate-600">總計 108 件</span>
-                </h3>
-                <div class="flex-grow relative flex items-center justify-center min-h-0 p-1">
-                    <canvas id="businessSegmentChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Panel 2: 保養任務達成進度 (件數) -->
-            <div class="bg-white p-3.5 lg:p-4 rounded-xl border border-slate-300 shadow-md flex flex-col min-h-0">
-                <h3 class="fluid-card-title font-black text-slate-900 mb-2 flex items-center justify-between border-b pb-2 border-slate-200">
-                    <span><i class="fa-solid fa-list-check text-indigo-600 mr-2"></i>保養任務達成進度 (件數)</span>
-                    <span class="fluid-subtitle font-bold text-slate-600">單位：件</span>
-                </h3>
-                <div class="flex-grow relative flex items-center justify-center min-h-0 p-1">
-                    <canvas id="pmProgressChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Bottom Banner: 主力維修備機與租機池 (Updated Quantities: 13 units) -->
-            <div class="col-span-2 bg-slate-900 text-white rounded-xl p-3.5 lg:p-4 shadow-lg flex flex-col justify-between border border-slate-700">
-                <div class="flex justify-between items-center mb-1">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-boxes-stacked text-amber-400 fluid-card-title"></i>
-                        <h3 class="fluid-card-title font-black text-white tracking-wide">主力精銳戰備池 (共 13 台隨時調度支援)</h3>
+            <!-- Charts Grid: 1 col on small screens, 2 cols on extra-large -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 flex-grow">
+                <!-- Panel 1: 業務案量結構 (件數) -->
+                <div class="bg-white p-4 md:p-5 rounded-2xl high-contrast-border flex flex-col h-full">
+                    <h3 class="fluid-card-title text-slate-900 mb-4 flex flex-wrap items-center justify-between border-b-2 pb-3 border-slate-200">
+                        <span><i class="fa-solid fa-chart-pie text-blue-600 mr-2"></i>四大業務板塊分佈 (件數)</span>
+                        <span class="fluid-subtitle text-slate-600 mt-2 sm:mt-0">總計 167 件</span>
+                    </h3>
+                    <div class="chart-wrapper">
+                        <canvas id="businessSegmentChart"></canvas>
                     </div>
-                    <span class="fluid-badge-text bg-slate-800 text-slate-200 px-3 py-1 rounded-full border border-slate-600 font-bold">
-                        維修借機支援與急租調度
+                </div>
+
+                <!-- Panel 2: 保養任務達成進度 (件數) -->
+                <div class="bg-white p-4 md:p-5 rounded-2xl high-contrast-border flex flex-col h-full">
+                    <h3 class="fluid-card-title text-slate-900 mb-4 flex flex-wrap items-center justify-between border-b-2 pb-3 border-slate-200">
+                        <span><i class="fa-solid fa-list-check text-indigo-600 mr-2"></i>保養任務達成進度 (件數)</span>
+                        <span class="fluid-subtitle text-slate-600 mt-2 sm:mt-0">單位：件</span>
+                    </h3>
+                    <div class="chart-wrapper">
+                        <canvas id="pmProgressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Banner: 17台 戰備機 -->
+            <div class="bg-slate-900 text-white rounded-2xl p-5 md:p-6 shadow-xl flex flex-col justify-between border-2 border-slate-700">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-boxes-stacked text-amber-400 text-2xl md:text-3xl"></i>
+                        <h3 class="fluid-card-title text-white tracking-wide">主力精銳戰備池 <span class="text-amber-400">(共 17 台隨時調度支援)</span></h3>
+                    </div>
+                    <span class="fluid-badge-text bg-slate-800 text-slate-200 px-4 py-2 rounded-full border-2 border-slate-600 text-center w-full md:w-auto whitespace-nowrap">
+                        維修替換備機與急件租賃調度
                     </span>
                 </div>
 
-                <div class="grid grid-cols-4 gap-3 text-center my-1.5">
-                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
-                        <div class="fluid-subtitle text-slate-300 font-bold">EverFlo 氧氣機</div>
-                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">6 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                <!-- 7 機型配置 Responsive Grid: 自動適應手機 2欄 -> 平板 3/4欄 -> 電腦 7欄 -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7 gap-3 mb-4">
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">EverFlo 氧氣機</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">5 <span class="text-sm text-slate-300">台</span></div>
                     </div>
-                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
-                        <div class="fluid-subtitle text-slate-300 font-bold">Trilogy 100</div>
-                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">5 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">Trilogy 100</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">5 <span class="text-sm text-slate-300">台</span></div>
                     </div>
-                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
-                        <div class="fluid-subtitle text-slate-300 font-bold">Lumis 150</div>
-                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">1 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">DS BiPAP ST30</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">3 <span class="text-sm text-slate-300">台</span></div>
                     </div>
-                    <div class="bg-slate-800 p-2 lg:p-2.5 rounded-xl border border-slate-700">
-                        <div class="fluid-subtitle text-slate-300 font-bold">Astral 150</div>
-                        <div class="fluid-card-title font-black text-amber-400 font-mono mt-0.5">1 <span class="fluid-badge-text text-slate-300 font-normal">台</span></div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">Lumis 150</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">1 <span class="text-sm text-slate-300">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">Trilogy EVO</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">1 <span class="text-sm text-slate-300">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">Astral 150</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">1 <span class="text-sm text-slate-300">台</span></div>
+                    </div>
+                    <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center hover:bg-slate-700 transition-colors">
+                        <div class="fluid-badge-text text-slate-300 whitespace-nowrap overflow-hidden text-ellipsis">怡氧製氧機</div>
+                        <div class="text-2xl md:text-3xl text-amber-400 font-mono mt-1 font-black">1 <span class="text-sm text-slate-300">台</span></div>
                     </div>
                 </div>
 
-                <div class="fluid-body-text text-slate-300 font-bold flex items-center justify-between border-t border-slate-800 pt-1.5">
-                    <span class="flex items-center gap-1.5 text-emerald-400">
+                <div class="fluid-body-text text-slate-300 flex flex-col md:flex-row items-start md:items-center justify-between border-t-2 border-slate-800 pt-4 gap-2">
+                    <span class="flex items-center gap-2 text-emerald-400">
                         <i class="fa-solid fa-circle-check text-emerald-400"></i>
-                        <span class="text-slate-200">後勤防線 100% 整備：提供前線客戶維修替換備機與緊急租賃需求</span>
+                        <span class="text-slate-100">後勤防線升級：100% 整備完成，無縫提供前線客戶維修替換機</span>
                     </span>
-                    <span class="text-slate-400 font-semibold fluid-subtitle">工程部營運管制中心</span>
+                    <span class="text-slate-400 fluid-subtitle">工程部營運管制中心</span>
                 </div>
             </div>
 
@@ -198,38 +224,31 @@
     </main>
 
     <!-- Footer -->
-    <footer class="flex justify-between items-center fluid-subtitle font-bold text-slate-600 pt-1 border-t border-slate-300 flex-shrink-0">
+    <footer class="flex flex-col sm:flex-row justify-between items-center fluid-subtitle text-slate-600 pt-4 border-t-4 border-slate-300 gap-2 text-center sm:text-left">
         <div>永定生物科技 - 工程部 Operations Dashboard</div>
-        <div>資料時間: 2026-07-24 18:00 結算</div>
+        <div>資料時間: 2026-07-31 18:00 結算</div>
     </footer>
 
 </div>
 
-<!-- Chart.js Scripts with Layout Overlap Fix -->
 <script>
     Chart.register(ChartDataLabels);
 
-    // 動態計算圖表字型大小，適應不同解析度螢幕
-    function getResponsiveFontSize(baseSize) {
-        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        if (vw >= 2560) return baseSize * 1.5; 
-        if (vw >= 1920) return baseSize * 1.25; 
-        return baseSize; 
-    }
+    // 強制設定圖表字體大小，保證高解析度大螢幕下依舊極度清晰
+    const legendFontSize = window.innerWidth < 768 ? 12 : 14; 
+    const dataLabelFontSize = window.innerWidth < 768 ? 13 : 16;
+    const axisFontSize = window.innerWidth < 768 ? 12 : 14;
 
-    const legendFontSize = getResponsiveFontSize(14);
-    const dataLabelFontSize = getResponsiveFontSize(14);
-
-    // Chart 1: Business Segment (Counts)
+    // Chart 1: 四大業務板塊 (件數)
     const ctxSegment = document.getElementById('businessSegmentChart').getContext('2d');
     new Chart(ctxSegment, {
         type: 'doughnut',
         data: {
-            labels: ['保養 (57件)', '維修 (25件)', '裝機與專案 (15件)', '內部整備 (11件)'],
+            labels: ['保養 (103件)', '維修 (27件)', '裝機與專案 (17件)', '內部整備 (20件)'],
             datasets: [{
-                data: [57, 25, 15, 11],
-                backgroundColor: ['#2563eb', '#0284c7', '#d97706', '#475569'],
-                borderWidth: 2,
+                data: [103, 27, 17, 20],
+                backgroundColor: ['#2563eb', '#0ea5e9', '#d97706', '#475569'],
+                borderWidth: 3,
                 borderColor: '#ffffff'
             }]
         },
@@ -238,12 +257,12 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'right',
+                    position: window.innerWidth < 1024 ? 'bottom' : 'right',
                     labels: {
-                        font: { family: 'Noto Sans TC', size: legendFontSize, weight: '900' },
+                        font: { family: 'Noto Sans TC', size: legendFontSize, weight: 'bold' },
                         color: '#0f172a',
-                        padding: 14,
-                        boxWidth: 14
+                        padding: window.innerWidth < 768 ? 10 : 20,
+                        boxWidth: 16
                     }
                 },
                 datalabels: {
@@ -261,27 +280,27 @@
                     }
                 }
             },
-            cutout: '48%'
+            cutout: '45%'
         }
     });
 
-    // Chart 2: PM Progress (Counts) - Fixed Text Overlap Bug
+    // Chart 2: 保養任務進度 (件數)
     const ctxPM = document.getElementById('pmProgressChart').getContext('2d');
     new Chart(ctxPM, {
         type: 'bar',
         data: {
-            labels: ['居家居護保養 (目標83件)', '醫院保養 (年度目標511件)'],
+            labels: ['居家保養 (本月目標79件)', '醫院保養 (年度目標511件)'],
             datasets: [
                 {
                     label: '已完成 (件)',
-                    data: [63, 283],
-                    backgroundColor: '#059669',
+                    data: [79, 283],
+                    backgroundColor: '#059669', // Emerald 600
                     borderRadius: 6
                 },
                 {
                     label: '待派工/未完成 (件)',
-                    data: [20, 228],
-                    backgroundColor: '#cbd5e1',
+                    data: [0, 228],
+                    backgroundColor: '#cbd5e1', // Slate 300
                     borderRadius: 6
                 }
             ]
@@ -294,18 +313,19 @@
                 x: {
                     stacked: true,
                     grid: { display: false },
-                    ticks: { font: { family: 'Noto Sans TC', size: legendFontSize - 1, weight: 'bold' }, color: '#334155' }
+                    ticks: { font: { family: 'Noto Sans TC', size: axisFontSize, weight: 'bold' }, color: '#334155' },
+                    max: 600
                 },
                 y: {
                     stacked: true,
                     grid: { display: false },
-                    ticks: { font: { family: 'Noto Sans TC', weight: '900', size: legendFontSize }, color: '#0f172a' }
+                    ticks: { font: { family: 'Noto Sans TC', weight: 'bold', size: axisFontSize }, color: '#0f172a' }
                 }
             },
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { font: { family: 'Noto Sans TC', size: legendFontSize - 1, weight: 'bold' }, color: '#0f172a', boxWidth: 14, padding: 12 }
+                    labels: { font: { family: 'Noto Sans TC', size: legendFontSize, weight: 'bold' }, color: '#0f172a', boxWidth: 16, padding: 16 }
                 },
                 datalabels: {
                     color: (context) => context.datasetIndex === 0 ? '#ffffff' : '#0f172a',
@@ -313,13 +333,9 @@
                     anchor: 'center',
                     align: 'center',
                     display: function(context) {
-                        // 避免窄長條文字擠壓重疊：若數值小於 25 且屬於待派工，自動靠右顯示或隱藏，確保 readability
                         return context.dataset.data[context.dataIndex] > 0;
                     },
                     formatter: function(value, context) {
-                        if (context.datasetIndex === 1 && context.dataIndex === 0) {
-                            return '待派 ' + value + '件'; // 明確區隔
-                        }
                         return value + '件';
                     }
                 }
